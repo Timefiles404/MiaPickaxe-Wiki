@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiaPickaxe Wiki - 神话镐子系统</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --border-color: #30363d;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --accent-purple: #a855f7;
+            --accent-blue: #3b82f6;
+            --accent-green: #22c55e;
+            --accent-yellow: #eab308;
+            --accent-red: #ef4444;
+            --accent-cyan: #06b6d4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background: rgba(13, 17, 23, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            padding: 0 2rem;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .navbar-links {
+            margin-left: auto;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .navbar-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .navbar-links a:hover {
+            color: var(--text-primary);
+        }
+
+        /* 侧边栏 */
+        .sidebar {
+            position: fixed;
+            top: 64px;
+            left: 0;
+            width: 280px;
+            height: calc(100vh - 64px);
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .sidebar-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+        }
+
+        .sidebar-link {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .sidebar-link:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .sidebar-link.active {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(59, 130, 246, 0.2));
+            color: var(--accent-purple);
+        }
+
+        /* 主内容区 */
+        .main-content {
+            margin-left: 280px;
+            margin-top: 64px;
+            padding: 2rem 3rem;
+            max-width: 900px;
+        }
+
+        /* Hero 区域 */
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(59, 130, 246, 0.1));
+            border-radius: 16px;
+            margin-bottom: 3rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .version-badge {
+            display: inline-block;
+            background: var(--accent-green);
+            color: #000;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        /* 章节标题 */
+        section {
+            margin-bottom: 3rem;
+            scroll-margin-top: 80px;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.75rem;
+            color: var(--accent-cyan);
+        }
+
+        h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 1rem 0 0.5rem;
+            color: var(--accent-yellow);
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        /* 代码块 */
+        pre {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', 'Consolas', monospace;
+            font-size: 0.85rem;
+        }
+
+        :not(pre) > code {
+            background: var(--bg-tertiary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            color: var(--accent-purple);
+        }
+
+        /* 表格 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        th {
+            background: var(--bg-tertiary);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        td {
+            color: var(--text-secondary);
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        /* 提示框 */
+        .alert {
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid;
+        }
+
+        .alert-info {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: var(--accent-blue);
+        }
+
+        .alert-warning {
+            background: rgba(234, 179, 8, 0.1);
+            border-color: var(--accent-yellow);
+        }
+
+        .alert-success {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: var(--accent-green);
+        }
+
+        .alert-danger {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: var(--accent-red);
+        }
+
+        .alert-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--text-primary);
+        }
+
+        /* 列表 */
+        ul, ol {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* 卡片 */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.25rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* 响应式 */
+        @media (max-width: 1024px) {
+            .sidebar {
+                display: none;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 1.5rem;
+            }
+        }
+
+        /* 滚动条 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="navbar-brand">⛏️ MiaPickaxe</div>
+        <div class="navbar-links">
+            <a href="#overview">概述</a>
+            <a href="#commands">命令</a>
+            <a href="#config">配置</a>
+            <a href="#developer">开发者</a>
+        </div>
+    </nav>
+
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+        <div class="sidebar-section">
+            <div class="sidebar-title">入门</div>
+            <a href="#overview" class="sidebar-link active">插件概述</a>
+            <a href="#installation" class="sidebar-link">安装指南</a>
+            <a href="#quick-start" class="sidebar-link">快速开始</a>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">使用指南</div>
+            <a href="#commands" class="sidebar-link">命令列表</a>
+            <a href="#gui" class="sidebar-link">GUI界面</a>
+            <a href="#upgrades" class="sidebar-link">升级系统</a>
+            <a href="#binding" class="sidebar-link">绑定系统</a>
+            <a href="#stones" class="sidebar-link">石头物品</a>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">配置</div>
+            <a href="#config" class="sidebar-link">config.yml</a>
+            <a href="#messages" class="sidebar-link">messages.yml</a>
+            <a href="#whitelist" class="sidebar-link">挖掘白名单</a>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">开发者</div>
+            <a href="#developer" class="sidebar-link">调试模式</a>
+            <a href="#api" class="sidebar-link">API 接口</a>
+            <a href="#build" class="sidebar-link">编译构建</a>
+        </div>
+    </aside>
+
+    <!-- 主内容 -->
+    <main class="main-content">
+        <!-- Hero -->
+        <div class="hero">
+            <h1>MiaPickaxe Wiki</h1>
+            <p>一款功能强大的 Minecraft 镐子升级系统插件，支持主等级和属性独立升级，灵魂绑定，混合消耗等特性</p>
+            <span class="version-badge">v1.0.0 | MC 1.20.1 - 1.21.4</span>
+        </div>
+
+        <!-- 概述 -->
+        <section id="overview">
+            <h2>📖 插件概述</h2>
+            <p>MiaPickaxe 是一款高度可定制的镐子升级系统插件，让玩家通过挖掘方块来提升镐子等级，并独立升级效率、时运、耐久三种属性。</p>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon">⚡</div>
+                    <div class="card-title">双维度升级</div>
+                    <div class="card-desc">主等级自动提升 + 属性独立升级，玩法丰富</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">💎</div>
+                    <div class="card-title">混合消耗</div>
+                    <div class="card-desc">支持金币、点券、物品三种消耗方式任意组合</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔒</div>
+                    <div class="card-title">灵魂绑定</div>
+                    <div class="card-desc">绑定后死亡不掉落，非主人无法使用</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🛡️</div>
+                    <div class="card-title">安全机制</div>
+                    <div class="card-desc">阻止铁砧、附魔台、砂轮等原版操作</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 安装 -->
+        <section id="installation">
+            <h2>📦 安装指南</h2>
+            
+            <h3>依赖要求</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>插件</th>
+                        <th>必须</th>
+                        <th>说明</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Paper/Spigot</td>
+                        <td>✅ 是</td>
+                        <td>1.20.1 - 1.21.4 版本</td>
+                    </tr>
+                    <tr>
+                        <td>Vault</td>
+                        <td>❌ 可选</td>
+                        <td>金币消耗功能</td>
+                    </tr>
+                    <tr>
+                        <td>PlayerPoints</td>
+                        <td>❌ 可选</td>
+                        <td>点券消耗功能</td>
+                    </tr>
+                    <tr>
+                        <td>MythicMobs</td>
+                        <td>❌ 可选</td>
+                        <td>MM物品消耗功能</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>安装步骤</h3>
+            <ol>
+                <li>将 <code>MiaPickaxe-1.0.0.jar</code> 放入服务器 <code>plugins/</code> 目录</li>
+                <li>重启服务器或使用 <code>/reload confirm</code></li>
+                <li>编辑生成的配置文件</li>
+                <li>使用 <code>/mpa reload</code> 重载配置</li>
+            </ol>
+        </section>
+
+        <!-- 快速开始 -->
+        <section id="quick-start">
+            <h2>🚀 快速开始</h2>
+            
+            <h3>1. 获取镐子</h3>
+            <pre><code>/mpa give &lt;玩家名&gt;</code></pre>
+            <p>管理员可以给玩家发放一把初始的神话镐子（下界合金材质）。</p>
+
+            <h3>2. 挖掘提升</h3>
+            <p>使用神话镐子挖掘白名单中的方块会增加挖掘计数，达到一定数量后自动升级主等级。</p>
+
+            <h3>3. 打开锻造台</h3>
+            <pre><code>/mpa forge</code></pre>
+            <p>手持镐子执行命令，打开锻造台GUI进行属性升级。</p>
+
+            <h3>4. 绑定镐子</h3>
+            <pre><code>/mpa stone</code></pre>
+            <p>手持镐子执行命令，打开石头界面进行绑定/解绑/修复操作。</p>
+        </section>
+
+        <!-- 命令 -->
+        <section id="commands">
+            <h2>⌨️ 命令列表</h2>
+            
+            <div class="alert alert-info">
+                <div class="alert-title">💡 命令别名</div>
+                主命令 <code>/miapickaxe</code> 可简写为 <code>/mpickaxe</code> 或 <code>/mpa</code>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>命令</th>
+                        <th>权限</th>
+                        <th>说明</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>/mpa give &lt;玩家&gt;</code></td>
+                        <td>miapickaxe.admin</td>
+                        <td>给予玩家一把神话镐子</td>
+                    </tr>
+                    <tr>
+                        <td><code>/mpa reload</code></td>
+                        <td>miapickaxe.admin</td>
+                        <td>重载所有配置文件</td>
+                    </tr>
+                    <tr>
+                        <td><code>/mpa info</code></td>
+                        <td>无</td>
+                        <td>查看手持镐子的详细信息</td>
+                    </tr>
+                    <tr>
+                        <td><code>/mpa forge</code></td>
+                        <td>miapickaxe.forge</td>
+                        <td>打开锻造台GUI（属性升级）</td>
+                    </tr>
+                    <tr>
+                        <td><code>/mpa stone</code></td>
+                        <td>miapickaxe.stone</td>
+                        <td>打开石头界面（绑定/修复）</td>
+                    </tr>
+                    <tr>
+                        <td><code>/mpa setlevel &lt;等级&gt;</code></td>
+                        <td>miapickaxe.admin</td>
+                        <td>设置手持镐子的主等级</td>
+                    </tr>
+                    <tr>
+                        <td><code>/mpa setmined &lt;数量&gt;</code></td>
+                        <td>miapickaxe.admin</td>
+                        <td>设置手持镐子的挖掘数</td>
+                    </tr>
+                    <tr>
+                        <td><code>/mpa bind &lt;玩家&gt;</code></td>
+                        <td>miapickaxe.admin</td>
+                        <td>强制绑定镐子到指定玩家</td>
+                    </tr>
+                    <tr>
+                        <td><code>/mpa unbind</code></td>
+                        <td>miapickaxe.admin</td>
+                        <td>强制解除镐子绑定</td>
+                    </tr>
+                    <tr>
+                        <td><code>/mpa givestone &lt;玩家&gt; &lt;类型&gt; [数量]</code></td>
+                        <td>miapickaxe.admin</td>
+                        <td>给予石头（binding/unbinding/durability）</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- GUI界面 -->
+        <section id="gui">
+            <h2>🖼️ GUI界面</h2>
+            
+            <h3>锻造台 GUI</h3>
+            <p>通过 <code>/mpa forge</code> 打开，用于升级镐子的三种属性。</p>
+            <pre><code>槽位布局（27格箱子）:
+第1行: □ □ □ [效率] [时运] [耐久] □ □ □
+第2行: □ □ □ □ [镐子] □ □ □ □
+第3行: □ □ □ □ [关闭] □ □ □ □</code></pre>
+
+            <h3>石头界面 GUI</h3>
+            <p>通过 <code>/mpa stone</code> 打开，用于使用各种石头物品。</p>
+            <pre><code>槽位布局（27格箱子）:
+第1行: □ □ □ [绑定石] [解绑石] [耐久石] □ □ □
+第2行: □ □ □ □ [镐子] □ □ □ □
+第3行: □ □ □ □ [关闭] □ □ □ □</code></pre>
+        </section>
+
+        <!-- 升级系统 -->
+        <section id="upgrades">
+            <h2>⬆️ 升级系统</h2>
+            
+            <h3>主等级（Mastery Level）</h3>
+            <p>基于挖掘方块数自动升级的里程碑系统。</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>等级</th>
+                        <th>需要挖掘数</th>
+                        <th>显示名称</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>0</td><td>§7神话镐子 [Lv.1]</td></tr>
+                    <tr><td>2</td><td>1,000</td><td>§b神话镐子 [Lv.2]</td></tr>
+                    <tr><td>3</td><td>5,000</td><td>§d神话镐子 [Lv.3]</td></tr>
+                    <tr><td>4</td><td>15,000</td><td>§6神话镐子 [Lv.4]</td></tr>
+                    <tr><td>5</td><td>50,000</td><td>§c神话镐子 [Lv.5]</td></tr>
+                </tbody>
+            </table>
+
+            <h3>属性升级</h3>
+            <p>效率、时运、耐久三种属性独立升级，每种都有自己的等级、消耗和成功率配置。</p>
+            
+            <h4>升级要求</h4>
+            <ul>
+                <li><strong>min-blocks:</strong> 最低挖掘数要求</li>
+                <li><strong>min-pickaxe-level:</strong> 最低主等级要求</li>
+            </ul>
+
+            <h4>升级消耗</h4>
+            <ul>
+                <li><strong>money:</strong> 金币（需要Vault）</li>
+                <li><strong>points:</strong> 点券（需要PlayerPoints）</li>
+                <li><strong>mm-items:</strong> MythicMobs物品（格式：物品ID:数量）</li>
+            </ul>
+
+            <h4>失败机制</h4>
+            <ul>
+                <li><strong>chance:</strong> 成功率（0-100%）</li>
+                <li><strong>fail-action: DOWNGRADE</strong> 失败时降级（可选）</li>
+            </ul>
+        </section>
+
+        <!-- 绑定系统 -->
+        <section id="binding">
+            <h2>🔗 绑定系统</h2>
+            
+            <h3>灵魂绑定特性</h3>
+            <ul>
+                <li>绑定后，镐子与玩家的UUID关联</li>
+                <li>非主人尝试挖掘时，镐子会被自动丢出</li>
+                <li>死亡时绑定的镐子不会掉落，重生后自动归还</li>
+                <li>可通过解绑石解除绑定</li>
+            </ul>
+
+            <div class="alert alert-warning">
+                <div class="alert-title">⚠️ 注意</div>
+                绑定的镐子无法被铁砧、附魔台、砂轮、合成台操作，以防止数据损坏。
+            </div>
+        </section>
+
+        <!-- 石头物品 -->
+        <section id="stones">
+            <h2>💎 石头物品</h2>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>物品</th>
+                        <th>材质</th>
+                        <th>功能</th>
+                        <th>获取命令</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>§d绑定石</td>
+                        <td>紫水晶碎片</td>
+                        <td>将镐子绑定到使用者</td>
+                        <td><code>/mpa givestone &lt;玩家&gt; binding</code></td>
+                    </tr>
+                    <tr>
+                        <td>§8解绑石</td>
+                        <td>回声碎片</td>
+                        <td>解除镐子的绑定</td>
+                        <td><code>/mpa givestone &lt;玩家&gt; unbinding</code></td>
+                    </tr>
+                    <tr>
+                        <td>§b耐久石</td>
+                        <td>海晶碎片</td>
+                        <td>完全修复镐子耐久</td>
+                        <td><code>/mpa givestone &lt;玩家&gt; durability</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- config.yml -->
+        <section id="config">
+            <h2>⚙️ config.yml 配置</h2>
+            
+            <h3>调试模式</h3>
+            <pre><code>debug: false  # 设为true开启详细日志</code></pre>
+
+            <h3>绑定设置</h3>
+            <pre><code>binding-settings:
+  restrict-usage: true  # 是否限制非主人使用</code></pre>
+
+            <h3>主等级配置</h3>
+            <pre><code>mastery-levels:
+  1:
+    require-blocks: 0
+    display-name: "&7神话镐子 &7[Lv.1]"
+  2:
+    require-blocks: 1000
+    display-name: "&b神话镐子 &7[Lv.2]"
+  # ...</code></pre>
+
+            <h3>属性升级配置</h3>
+            <pre><code>upgrades:
+  efficiency:
+    1:
+      requirements:
+        min-blocks: 100
+        min-pickaxe-level: 1
+      costs:
+        money: 1000.0
+      settings:
+        chance: 100.0
+    2:
+      requirements:
+        min-blocks: 500
+      costs:
+        points: 10
+      settings:
+        chance: 80.0
+        fail-action: DOWNGRADE  # 可选</code></pre>
+        </section>
+
+        <!-- 挖掘白名单 -->
+        <section id="whitelist">
+            <h2>📋 挖掘白名单</h2>
+            
+            <p>文件位置: <code>plugins/MiaPickaxe/mining-whitelist.txt</code></p>
+            <p>只有在这个文件中配置的方块才会增加挖掘计数，每行格式: <code>方块名:倍率</code></p>
+
+            <pre><code># 示例配置
+diamond_ore:5        # 钻石矿，倍率5
+deepslate_diamond_ore:5
+iron_ore:1           # 铁矿，倍率1
+ancient_debris:10    # 远古残骸，倍率10
+deepslate:0.5        # 深板岩，倍率0.5</code></pre>
+
+            <div class="alert alert-info">
+                <div class="alert-title">💡 倍率说明</div>
+                倍率会向上取整。例如倍率0.5实际计算为1，倍率1.5计算为2。
+            </div>
+        </section>
+
+        <!-- 开发者 -->
+        <section id="developer">
+            <h2>🔧 开发者指南</h2>
+            
+            <h3>启用调试模式</h3>
+            <p>在 <code>config.yml</code> 中设置:</p>
+            <pre><code>debug: true</code></pre>
+            
+            <p>调试模式会输出以下信息:</p>
+            <ul>
+                <li>方块白名单加载详情</li>
+                <li>每次挖掘的计数变化</li>
+                <li>绑定镐子的保存/归还操作</li>
+                <li>升级尝试的详细结果</li>
+            </ul>
+
+            <h3>调试示例输出</h3>
+            <pre><code>[MiaPickaxe] [DEBUG] 加载方块白名单: DIAMOND_ORE -> 5.0
+[MiaPickaxe] [DEBUG] 挖掘计数+5 (方块:DIAMOND_ORE 倍率:5.0) 总计:1234
+[MiaPickaxe] [DEBUG] 保存绑定镐子: abc123-def456-...
+[MiaPickaxe] [DEBUG] 归还绑定镐子给: PlayerName</code></pre>
+        </section>
+
+        <!-- API -->
+        <section id="api">
+            <h2>📚 API 接口</h2>
+            
+            <h3>获取插件实例</h3>
+            <pre><code>MiaPickaxe plugin = MiaPickaxe.getInstance();</code></pre>
+
+            <h3>检查是否为MiaPickaxe镐子</h3>
+            <pre><code>ItemStack item = player.getInventory().getItemInMainHand();
+if (PickaxeData.isMiaPickaxe(item)) {
+    PickaxeData data = new PickaxeData(item);
+    int level = data.getLevel();
+    int mined = data.getMined();
+    boolean bound = data.isBound();
+}</code></pre>
+
+            <h3>创建新镐子</h3>
+            <pre><code>ItemStack pickaxe = plugin.getPickaxeManager().createPickaxe();
+player.getInventory().addItem(pickaxe);</code></pre>
+
+            <h3>创建石头物品</h3>
+            <pre><code>StoneItemManager stones = plugin.getStoneItemManager();
+ItemStack bindingStone = stones.createBindingStone(1);
+ItemStack unbindingStone = stones.createUnbindingStone(1);
+ItemStack durabilityStone = stones.createDurabilityStone(1);</code></pre>
+        </section>
+
+        <!-- 编译构建 -->
+        <section id="build">
+            <h2>🔨 编译构建</h2>
+            
+            <h3>环境要求</h3>
+            <ul>
+                <li>JDK 17+</li>
+                <li>Maven 3.6+</li>
+            </ul>
+
+            <h3>编译命令</h3>
+            <pre><code># 编译
+mvn clean compile
+
+# 打包
+mvn clean package -DskipTests
+
+# 输出位置
+target/MiaPickaxe-1.0.0.jar</code></pre>
+
+            <h3>项目结构</h3>
+            <pre><code>src/main/java/com/miapickaxe/
+├── MiaPickaxe.java           # 主类
+├── config/
+│   ├── ConfigManager.java    # 配置管理
+│   └── WhitelistLoader.java  # 白名单加载
+├── data/
+│   ├── PickaxeData.java      # 镐子NBT数据
+│   ├── PickaxeManager.java   # 镐子管理
+│   └── UpgradeType.java      # 升级类型枚举
+├── economy/
+│   ├── EconomyHandler.java   # 混合消耗处理
+│   ├── VaultHandler.java
+│   ├── PlayerPointsHandler.java
+│   └── MythicMobsHandler.java
+├── upgrade/
+│   ├── UpgradeManager.java   # 升级核心逻辑
+│   └── UpgradeResult.java
+├── listener/
+│   ├── MiningListener.java   # 挖掘监听
+│   ├── SecurityListener.java # 安全限制
+│   └── BindingListener.java  # 绑定监听
+├── gui/
+│   ├── ForgeGUI.java         # 锻造台界面
+│   ├── StoneGUI.java         # 石头界面
+│   └── GUIListener.java      # GUI事件
+├── item/
+│   └── StoneItemManager.java # 石头物品管理
+├── binding/
+│   └── BindingManager.java   # 绑定逻辑
+└── command/
+    └── PickaxeCommand.java   # 命令处理</code></pre>
+
+            <div class="alert alert-success">
+                <div class="alert-title">✅ 构建提示</div>
+                如果PlayerPoints依赖无法从Maven仓库解析，请将 <code>PlayerPoints.jar</code> 放入 <code>jars/</code> 目录。
+            </div>
+        </section>
+
+        <!-- 底部 -->
+        <footer style="text-align: center; padding: 3rem 0; color: var(--text-secondary); border-top: 1px solid var(--border-color); margin-top: 3rem;">
+            <p>MiaPickaxe Wiki &copy; 2026 | Made with ❤️</p>
+            <p style="font-size: 0.85rem; margin-top: 0.5rem;">Minecraft 1.20.1 - 1.21.4 | Paper/Spigot</p>
+        </footer>
+    </main>
+
+    <script>
+        // 侧边栏高亮
+        const links = document.querySelectorAll('.sidebar-link');
+        const sections = document.querySelectorAll('section');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            links.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
