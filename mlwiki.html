@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiaLimitation Wiki - 物品期限管理系统</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --border-color: #30363d;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --accent-purple: #a855f7;
+            --accent-blue: #3b82f6;
+            --accent-green: #22c55e;
+            --accent-yellow: #eab308;
+            --accent-red: #ef4444;
+            --accent-cyan: #06b6d4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background: rgba(13, 17, 23, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            padding: 0 2rem;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .navbar-links {
+            margin-left: auto;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .navbar-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .navbar-links a:hover {
+            color: var(--text-primary);
+        }
+
+        /* 侧边栏 */
+        .sidebar {
+            position: fixed;
+            top: 64px;
+            left: 0;
+            width: 280px;
+            height: calc(100vh - 64px);
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .sidebar-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+        }
+
+        .sidebar-link {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .sidebar-link:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .sidebar-link.active {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(59, 130, 246, 0.2));
+            color: var(--accent-purple);
+        }
+
+        /* 主内容区 */
+        .main-content {
+            margin-left: 280px;
+            margin-top: 64px;
+            padding: 2rem 3rem;
+            max-width: 900px;
+        }
+
+        /* Hero 区域 */
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(59, 130, 246, 0.1));
+            border-radius: 16px;
+            margin-bottom: 3rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .version-badge {
+            display: inline-block;
+            background: var(--accent-green);
+            color: #000;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        /* 章节标题 */
+        section {
+            margin-bottom: 3rem;
+            scroll-margin-top: 80px;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.75rem;
+            color: var(--accent-cyan);
+        }
+
+        h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 1rem 0 0.5rem;
+            color: var(--accent-yellow);
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        /* 代码块 */
+        pre {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', 'Consolas', monospace;
+            font-size: 0.85rem;
+        }
+
+        :not(pre)>code {
+            background: var(--bg-tertiary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            color: var(--accent-purple);
+        }
+
+        /* 表格 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th,
+        td {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        th {
+            background: var(--bg-tertiary);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        td {
+            color: var(--text-secondary);
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        /* 提示框 */
+        .alert {
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid;
+        }
+
+        .alert-info {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: var(--accent-blue);
+        }
+
+        .alert-warning {
+            background: rgba(234, 179, 8, 0.1);
+            border-color: var(--accent-yellow);
+        }
+
+        .alert-success {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: var(--accent-green);
+        }
+
+        .alert-danger {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: var(--accent-red);
+        }
+
+        .alert-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--text-primary);
+        }
+
+        /* 列表 */
+        ul,
+        ol {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* 卡片 */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.25rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* 响应式 */
+        @media (max-width: 1024px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1.5rem;
+            }
+        }
+
+        /* 滚动条 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="navbar-brand">⏰ MiaLimitation</div>
+        <div class="navbar-links">
+            <a href="#overview">概述</a>
+            <a href="#commands">命令</a>
+            <a href="#usage">使用</a>
+            <a href="#developer">开发者</a>
+        </div>
+    </nav>
+
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+        <div class="sidebar-section">
+            <div class="sidebar-title">入门</div>
+            <a href="#overview" class="sidebar-link active">插件概述</a>
+            <a href="#installation" class="sidebar-link">安装指南</a>
+            <a href="#quick-start" class="sidebar-link">快速开始</a>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">使用指南</div>
+            <a href="#commands" class="sidebar-link">命令列表</a>
+            <a href="#time-formats" class="sidebar-link">时间格式</a>
+            <a href="#usage" class="sidebar-link">使用场景</a>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">开发者</div>
+            <a href="#developer" class="sidebar-link">技术细节</a>
+            <a href="#api" class="sidebar-link">API 接口</a>
+            <a href="#build" class="sidebar-link">编译构建</a>
+        </div>
+    </aside>
+
+    <!-- 主内容 -->
+    <main class="main-content">
+        <!-- Hero -->
+        <div class="hero">
+            <h1>MiaLimitation Wiki</h1>
+            <p>为 Minecraft 物品添加使用期限的插件，轻松管理限时道具，过期自动销毁</p>
+            <span class="version-badge">v1.0.0 | MC 1.20.1 - 1.21.4 | Paper</span>
+        </div>
+
+        <!-- 概述 -->
+        <section id="overview">
+            <h2>📖 插件概述</h2>
+            <p>MiaLimitation 是一款轻量级的物品期限管理插件，可以为任意物品添加到期时间。到期后物品将在使用时自动销毁。</p>
+
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon">⏰</div>
+                    <div class="card-title">灵活时间设置</div>
+                    <div class="card-desc">支持指定具体日期或相对持续时间</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📝</div>
+                    <div class="card-title">Lore 显示</div>
+                    <div class="card-desc">到期时间清晰显示在物品描述中</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🗑️</div>
+                    <div class="card-title">自动销毁</div>
+                    <div class="card-desc">使用过期物品时自动删除并提示</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🛡️</div>
+                    <div class="card-title">非侵入式</div>
+                    <div class="card-desc">不影响物品原有的任何 Lore</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 安装 -->
+        <section id="installation">
+            <h2>📦 安装指南</h2>
+
+            <h3>依赖要求</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>依赖</th>
+                        <th>必须</th>
+                        <th>说明</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Paper/Spigot</td>
+                        <td>✅ 是</td>
+                        <td>1.20.1 - 1.21.4 版本</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>安装步骤</h3>
+            <ol>
+                <li>将 <code>MiaLimitation-1.0.0.jar</code> 放入服务器 <code>plugins/</code> 目录</li>
+                <li>重启服务器或使用插件管理器加载</li>
+                <li>使用 <code>/mialimit</code> 命令开始使用</li>
+            </ol>
+        </section>
+
+        <!-- 快速开始 -->
+        <section id="quick-start">
+            <h2>🚀 快速开始</h2>
+
+            <h3>1. 获取一个物品</h3>
+            <p>手持任意你想添加期限的物品。</p>
+
+            <h3>2. 设置到期时间</h3>
+            <pre><code>/mialimit duration 30d</code></pre>
+            <p>这会给物品设置30天后到期的时间限制。</p>
+
+            <h3>3. 查看效果</h3>
+            <p>物品 Lore 中会显示到期时间：</p>
+            <pre><code>§7到期时间: §f2026年02月21日</code></pre>
+
+            <h3>4. 到期后</h3>
+            <p>当玩家尝试使用已过期的物品时，物品将被自动删除并显示提示消息。</p>
+        </section>
+
+        <!-- 命令 -->
+        <section id="commands">
+            <h2>⌨️ 命令列表</h2>
+
+            <div class="alert alert-info">
+                <div class="alert-title">💡 权限</div>
+                使用 <code>/mialimit</code> 命令需要 <code>mialimitation.use</code> 权限（默认 OP）
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>命令</th>
+                        <th>说明</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>/mialimit end &lt;年&gt;y&lt;月&gt;m&lt;日&gt;d</code></td>
+                        <td>设置具体的到期日期</td>
+                    </tr>
+                    <tr>
+                        <td><code>/mialimit duration &lt;数字&gt;&lt;单位&gt;</code></td>
+                        <td>设置相对持续时间</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>命令示例</h3>
+            <pre><code># 设置到期日期为 2026年2月15日
+/mialimit end 2026y2m15d
+
+# 设置 30 天后到期
+/mialimit duration 30d
+
+# 设置 2 个月后到期
+/mialimit duration 2m
+
+# 设置 1 年后到期
+/mialimit duration 1y
+
+# 设置 24 小时后到期
+/mialimit duration 24h</code></pre>
+        </section>
+
+        <!-- 时间格式 -->
+        <section id="time-formats">
+            <h2>⏱️ 时间格式</h2>
+
+            <h3>end 命令格式</h3>
+            <p>格式：<code>&lt;年&gt;y&lt;月&gt;m&lt;日&gt;d</code></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>示例</th>
+                        <th>含义</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>2026y1m30d</code></td>
+                        <td>2026年1月30日</td>
+                    </tr>
+                    <tr>
+                        <td><code>2027y12m25d</code></td>
+                        <td>2027年12月25日</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>duration 命令格式</h3>
+            <p>格式：<code>&lt;数字&gt;&lt;单位&gt;</code></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>单位</th>
+                        <th>含义</th>
+                        <th>示例</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>h</code></td>
+                        <td>小时（转换为天数向上取整）</td>
+                        <td><code>24h</code> = 1天</td>
+                    </tr>
+                    <tr>
+                        <td><code>d</code></td>
+                        <td>天</td>
+                        <td><code>7d</code> = 7天</td>
+                    </tr>
+                    <tr>
+                        <td><code>m</code></td>
+                        <td>月</td>
+                        <td><code>1m</code> = 1个月</td>
+                    </tr>
+                    <tr>
+                        <td><code>y</code></td>
+                        <td>年</td>
+                        <td><code>1y</code> = 1年</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="alert alert-warning">
+                <div class="alert-title">⚠️ 注意</div>
+                到期时间必须设置在未来，否则命令会失败。
+            </div>
+        </section>
+
+        <!-- 使用场景 -->
+        <section id="usage">
+            <h2>💡 使用场景</h2>
+
+            <h3>限时活动道具</h3>
+            <p>为活动奖励物品设置到期时间，活动结束后自动失效。</p>
+            <pre><code># 给活动剑设置 7 天有效期
+/mialimit duration 7d</code></pre>
+
+            <h3>试用装备</h3>
+            <p>让玩家试用高级装备，到期后自动移除。</p>
+            <pre><code># 设置 1 小时试用期
+/mialimit duration 1h</code></pre>
+
+            <h3>季节性物品</h3>
+            <p>设置圣诞/新年活动物品在节日结束后到期。</p>
+            <pre><code># 设置到 2026年1月1日到期
+/mialimit end 2026y1m1d</code></pre>
+
+            <div class="alert alert-success">
+                <div class="alert-title">✅ 提示</div>
+                可以结合其他插件（如 MythicMobs、MMOItems）使用，给自定义物品添加时间限制。
+            </div>
+        </section>
+
+        <!-- 开发者 -->
+        <section id="developer">
+            <h2>🔧 技术细节</h2>
+
+            <h3>到期时间存储</h3>
+            <p>到期时间通过特殊的 Lore 行存储在物品上：</p>
+            <pre><code>§k§r§7到期时间: §f2026年01月30日§k§r[2026-01-30]</code></pre>
+            <ul>
+                <li><code>§k§r</code> - 隐藏标记，用于识别到期时间行</li>
+                <li>显示内容 - 玩家可见的到期日期</li>
+                <li><code>[yyyy-MM-dd]</code> - 隐藏的机器可读日期</li>
+            </ul>
+
+            <h3>检测事件</h3>
+            <p>插件监听以下事件来检测物品使用：</p>
+            <ul>
+                <li><code>PlayerInteractEvent</code> - 右键/左键交互</li>
+                <li><code>PlayerInteractEntityEvent</code> - 实体交互</li>
+                <li><code>EntityDamageByEntityEvent</code> - 攻击</li>
+                <li><code>PlayerItemConsumeEvent</code> - 消耗物品</li>
+            </ul>
+        </section>
+
+        <!-- API -->
+        <section id="api">
+            <h2>📚 API 接口</h2>
+
+            <h3>获取插件实例</h3>
+            <pre><code>MiaLimitation plugin = MiaLimitation.getInstance();</code></pre>
+
+            <h3>检查物品是否有到期时间</h3>
+            <pre><code>import io.aodev.mialimitation.utils.LoreUtils;
+
+ItemStack item = player.getInventory().getItemInMainHand();
+if (LoreUtils.hasExpirationDate(item)) {
+    LocalDate expDate = LoreUtils.getExpirationDate(item);
+    boolean isExpired = LoreUtils.isExpired(item);
+}</code></pre>
+
+            <h3>添加/移除到期时间</h3>
+            <pre><code>// 添加到期时间
+LoreUtils.addExpirationLore(item, LocalDate.of(2026, 12, 31));
+
+// 移除到期时间
+LoreUtils.removeExpirationLore(item);</code></pre>
+        </section>
+
+        <!-- 编译构建 -->
+        <section id="build">
+            <h2>🔨 编译构建</h2>
+
+            <h3>环境要求</h3>
+            <ul>
+                <li>JDK 17+</li>
+                <li>Maven 3.6+</li>
+            </ul>
+
+            <h3>编译命令</h3>
+            <pre><code># 编译
+mvn clean compile
+
+# 打包
+mvn clean package
+
+# 输出位置
+target/MiaLimitation-1.0.0.jar</code></pre>
+
+            <h3>项目结构</h3>
+            <pre><code>src/main/java/io/aodev/mialimitation/
+├── MiaLimitation.java              # 主类
+├── commands/
+│   └── LimitCommand.java           # 命令处理
+├── listeners/
+│   └── ItemUseListener.java        # 使用监听
+└── utils/
+    └── LoreUtils.java              # Lore工具类
+
+src/main/resources/
+└── plugin.yml                      # 插件配置</code></pre>
+        </section>
+
+        <!-- 底部 -->
+        <footer
+            style="text-align: center; padding: 3rem 0; color: var(--text-secondary); border-top: 1px solid var(--border-color); margin-top: 3rem;">
+            <p>MiaLimitation Wiki &copy; 2026 | Made with ❤️</p>
+            <p style="font-size: 0.85rem; margin-top: 0.5rem;">Minecraft 1.20.1 - 1.21.4 | Paper</p>
+        </footer>
+    </main>
+
+    <script>
+        // 侧边栏高亮
+        const links = document.querySelectorAll('.sidebar-link');
+        const sections = document.querySelectorAll('section');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            links.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
