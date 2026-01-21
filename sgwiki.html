@@ -3,517 +3,544 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MiaSmartGiftRoll Wiki</title>
+    <title>MiaSmartGiftRoll Wiki - 智能抽奖系统</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #0d1117;
-            --bg-sidebar: #161b22;
-            --bg-content: #0d1117;
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
             --border-color: #30363d;
-            --text-primary: #c9d1d9;
+            --text-primary: #e6edf3;
             --text-secondary: #8b949e;
-            --accent-purple: #a371f7;
-            --accent-green: #3fb950;
-            --accent-blue: #58a6ff;
-            --accent-yellow: #d29922;
-            --accent-red: #f85149;
-            --code-bg: #1f2428;
+            --accent-purple: #a855f7;
+            --accent-blue: #3b82f6;
+            --accent-green: #22c55e;
+            --accent-yellow: #eab308;
+            --accent-red: #ef4444;
+            --accent-cyan: #06b6d4;
         }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
-            background-color: var(--bg-dark);
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
             color: var(--text-primary);
-            line-height: 1.6;
+            line-height: 1.7;
         }
-
-        .container {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            width: 280px;
-            background-color: var(--bg-sidebar);
-            border-right: 1px solid var(--border-color);
-            padding: 20px;
+        /* 导航栏 */
+        .navbar {
             position: fixed;
-            height: 100vh;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background: rgba(13, 17, 23, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            padding: 0 2rem;
+            z-index: 1000;
+        }
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .navbar-links {
+            margin-left: auto;
+            display: flex;
+            gap: 2rem;
+        }
+        .navbar-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .navbar-links a:hover {
+            color: var(--text-primary);
+        }
+        /* 侧边栏 */
+        .sidebar {
+            position: fixed;
+            top: 64px;
+            left: 0;
+            width: 280px;
+            height: calc(100vh - 64px);
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            padding: 1.5rem;
             overflow-y: auto;
         }
-
-        .sidebar-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 24px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--border-color);
+        .sidebar-section {
+            margin-bottom: 1.5rem;
         }
-
-        .sidebar-header .logo {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-        }
-
-        .sidebar-header h1 {
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-        .sidebar-header .version {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        .nav-section {
-            margin-bottom: 20px;
-        }
-
-        .nav-section-title {
-            font-size: 12px;
+        .sidebar-title {
+            font-size: 0.75rem;
             font-weight: 600;
             color: var(--text-secondary);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
-            padding-left: 8px;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
         }
-
-        .nav-link {
+        .sidebar-link {
             display: block;
-            padding: 8px 12px;
-            color: var(--text-primary);
+            padding: 0.5rem 0.75rem;
+            color: var(--text-secondary);
             text-decoration: none;
             border-radius: 6px;
-            margin-bottom: 2px;
-            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            transition: all 0.2s;
         }
-
-        .nav-link:hover {
-            background-color: rgba(99, 110, 123, 0.2);
+        .sidebar-link:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
         }
-
-        .nav-link.active {
-            background-color: rgba(163, 113, 247, 0.15);
+        .sidebar-link.active {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(59, 130, 246, 0.2));
             color: var(--accent-purple);
         }
-
-        .nav-link .icon {
-            margin-right: 8px;
-        }
-
-        /* Main Content */
+        /* 主内容区 */
         .main-content {
-            flex: 1;
             margin-left: 280px;
-            padding: 40px 60px;
+            margin-top: 64px;
+            padding: 2rem 3rem;
             max-width: 900px;
         }
-
-        .page-title {
-            font-size: 32px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .section {
-            margin-bottom: 40px;
-            display: none;
-        }
-
-        .section.active {
-            display: block;
-        }
-
-        h2 {
-            font-size: 24px;
-            margin: 32px 0 16px 0;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        h3 {
-            font-size: 20px;
-            margin: 24px 0 12px 0;
-            color: var(--accent-blue);
-        }
-
-        p {
-            margin-bottom: 16px;
-        }
-
-        ul, ol {
-            margin-bottom: 16px;
-            padding-left: 24px;
-        }
-
-        li {
-            margin-bottom: 8px;
-        }
-
-        code {
-            background-color: var(--code-bg);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 14px;
-        }
-
-        pre {
-            background-color: var(--code-bg);
-            padding: 16px;
-            border-radius: 8px;
-            overflow-x: auto;
-            margin-bottom: 16px;
+        /* Hero 区域 */
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(59, 130, 246, 0.1));
+            border-radius: 16px;
+            margin-bottom: 3rem;
             border: 1px solid var(--border-color);
         }
-
-        pre code {
-            background: none;
-            padding: 0;
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-
-        .command-block {
-            background: linear-gradient(135deg, rgba(163, 113, 247, 0.1), rgba(88, 166, 255, 0.1));
-            border: 1px solid var(--accent-purple);
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 16px;
-        }
-
-        .command-block .cmd {
-            font-family: monospace;
-            font-size: 16px;
-            color: var(--accent-green);
-        }
-
-        .command-block .desc {
+        .hero p {
             color: var(--text-secondary);
-            margin-top: 8px;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
         }
-
+        .version-badge {
+            display: inline-block;
+            background: var(--accent-green);
+            color: #000;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+        /* 章节标题 */
+        section {
+            margin-bottom: 3rem;
+            scroll-margin-top: 80px;
+        }
+        h2 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.75rem;
+            color: var(--accent-cyan);
+        }
+        h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 1rem 0 0.5rem;
+            color: var(--accent-yellow);
+        }
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+        /* 代码块 */
+        pre {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        code {
+            font-family: 'JetBrains Mono', 'Consolas', monospace;
+            font-size: 0.85rem;
+        }
+        :not(pre)>code {
+            background: var(--bg-tertiary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            color: var(--accent-purple);
+        }
+        /* 表格 */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 16px;
+            margin: 1rem 0;
         }
-
-        th, td {
-            padding: 12px;
-            text-align: left;
+        th,
+        td {
+            padding: 0.75rem 1rem;
             border: 1px solid var(--border-color);
+            text-align: left;
         }
-
         th {
-            background-color: var(--bg-sidebar);
+            background: var(--bg-tertiary);
             font-weight: 600;
+            color: var(--text-primary);
         }
-
-        .badge {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
+        td {
+            color: var(--text-secondary);
+        }
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        /* 提示框 */
+        .alert {
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid;
+        }
+        .alert-info {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: var(--accent-blue);
+        }
+        .alert-warning {
+            background: rgba(234, 179, 8, 0.1);
+            border-color: var(--accent-yellow);
+        }
+        .alert-success {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: var(--accent-green);
+        }
+        .alert-danger {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: var(--accent-red);
+        }
+        .alert-title {
             font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--text-primary);
         }
-
-        .badge-required {
-            background-color: rgba(248, 81, 73, 0.2);
-            color: var(--accent-red);
+        /* 列表 */
+        ul,
+        ol {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+            color: var(--text-secondary);
         }
-
-        .badge-optional {
-            background-color: rgba(63, 185, 80, 0.2);
-            color: var(--accent-green);
+        li {
+            margin-bottom: 0.5rem;
         }
-
-        .tip-box {
-            background-color: rgba(88, 166, 255, 0.1);
-            border-left: 4px solid var(--accent-blue);
-            padding: 16px;
-            border-radius: 0 8px 8px 0;
-            margin-bottom: 16px;
+        /* 卡片 */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
         }
-
-        .warning-box {
-            background-color: rgba(210, 153, 34, 0.1);
-            border-left: 4px solid var(--accent-yellow);
-            padding: 16px;
-            border-radius: 0 8px 8px 0;
-            margin-bottom: 16px;
-        }
-
-        .feature-card {
-            background-color: var(--bg-sidebar);
+        .card {
+            background: var(--bg-secondary);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 16px;
+            padding: 1.25rem;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-
-        .feature-card h4 {
-            color: var(--accent-purple);
-            margin-bottom: 8px;
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
         }
-
-        @media (max-width: 768px) {
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        /* 响应式 */
+        @media (max-width: 1024px) {
             .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
+                display: none;
             }
             .main-content {
                 margin-left: 0;
-                padding: 20px;
+                padding: 1.5rem;
             }
+        }
+        /* 滚动条 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Sidebar -->
-        <nav class="sidebar">
-            <div class="sidebar-header">
-                <div class="logo">🎁</div>
-                <div>
-                    <h1>MiaSmartGiftRoll</h1>
-                    <span class="version">v1.0.0</span>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="navbar-brand">🎁 MiaSmartGiftRoll</div>
+        <div class="navbar-links">
+            <a href="#overview">概述</a>
+            <a href="#commands">命令</a>
+            <a href="#config">配置</a>
+            <a href="#storage">存储</a>
+        </div>
+    </nav>
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+        <div class="sidebar-section">
+            <div class="sidebar-title">入门</div>
+            <a href="#overview" class="sidebar-link active">插件概述</a>
+            <a href="#installation" class="sidebar-link">安装指南</a>
+            <a href="#quick-start" class="sidebar-link">快速开始</a>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">使用指南</div>
+            <a href="#commands" class="sidebar-link">命令列表</a>
+            <a href="#gui" class="sidebar-link">GUI界面</a>
+            <a href="#filters" class="sidebar-link">筛选条件</a>
+            <a href="#animation" class="sidebar-link">抽奖动画</a>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">配置</div>
+            <a href="#config" class="sidebar-link">config.yml</a>
+            <a href="#permissions" class="sidebar-link">权限节点</a>
+            <a href="#storage" class="sidebar-link">数据存储</a>
+        </div>
+    </aside>
+    <!-- 主内容 -->
+    <main class="main-content">
+        <!-- Hero -->
+        <div class="hero">
+            <h1>MiaSmartGiftRoll Wiki</h1>
+            <p>一款高级抽奖与礼包分发系统，支持可视化抽奖动画，适合直播展示</p>
+            <span class="version-badge">v1.0.0 | MC 1.20.1 - 1.21.4 | Paper</span>
+        </div>
+        <!-- 概述 -->
+        <section id="overview">
+            <h2>📖 插件概述</h2>
+            <p>MiaSmartGiftRoll 是一款高级抽奖与礼包分发系统，专为 Minecraft Paper 服务器设计。支持可视化抽奖动画，让管理员可以直播抽奖给观众看。</p>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon">🎁</div>
+                    <div class="card-title">礼包管理</div>
+                    <div class="card-desc">通过 GUI 创建和管理礼包，支持拖拽物品，完整保留 NBT 数据</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎰</div>
+                    <div class="card-title">可视化抽奖</div>
+                    <div class="card-desc">执行抽奖时打开动画界面，玩家头像环形旋转，适合直播展示</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔍</div>
+                    <div class="card-title">智能筛选</div>
+                    <div class="card-desc">支持权限、金币、点券、游戏时长、自定义 PAPI 变量筛选</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">💾</div>
+                    <div class="card-title">永久存储</div>
+                    <div class="card-desc">使用 SQLite 数据库持久化存储待领取物品</div>
                 </div>
             </div>
-
-            <div class="nav-section">
-                <div class="nav-section-title">开始使用</div>
-                <a href="#overview" class="nav-link active" onclick="showSection('overview')">
-                    <span class="icon">📖</span>概述
-                </a>
-                <a href="#installation" class="nav-link" onclick="showSection('installation')">
-                    <span class="icon">⚙️</span>安装配置
-                </a>
-            </div>
-
-            <div class="nav-section">
-                <div class="nav-section-title">功能指南</div>
-                <a href="#commands" class="nav-link" onclick="showSection('commands')">
-                    <span class="icon">💻</span>指令大全
-                </a>
-                <a href="#gui" class="nav-link" onclick="showSection('gui')">
-                    <span class="icon">🖼️</span>GUI界面
-                </a>
-                <a href="#filters" class="nav-link" onclick="showSection('filters')">
-                    <span class="icon">🔍</span>筛选条件
-                </a>
-                <a href="#animation" class="nav-link" onclick="showSection('animation')">
-                    <span class="icon">🎰</span>抽奖动画
-                </a>
-            </div>
-
-            <div class="nav-section">
-                <div class="nav-section-title">高级配置</div>
-                <a href="#config" class="nav-link" onclick="showSection('config')">
-                    <span class="icon">📝</span>配置文件
-                </a>
-                <a href="#permissions" class="nav-link" onclick="showSection('permissions')">
-                    <span class="icon">🔒</span>权限节点
-                </a>
-                <a href="#storage" class="nav-link" onclick="showSection('storage')">
-                    <span class="icon">💾</span>数据存储
-                </a>
-            </div>
-        </nav>
-
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Overview Section -->
-            <section id="overview" class="section active">
-                <h1 class="page-title">📖 MiaSmartGiftRoll 概述</h1>
-                
-                <p>MiaSmartGiftRoll 是一个高级抽奖与礼包分发系统，专为 Minecraft Paper 服务器设计。支持可视化抽奖动画，让管理员可以直播抽奖给观众看。</p>
-
-                <h2>核心功能</h2>
-                
-                <div class="feature-card">
-                    <h4>🎁 礼包管理</h4>
-                    <p>通过 GUI 创建和管理礼包，支持拖拽物品，完整保留 NBT 数据、附魔和 Lore。</p>
-                </div>
-
-                <div class="feature-card">
-                    <h4>🎰 可视化抽奖</h4>
-                    <p>执行抽奖时打开动画界面，玩家头像环形旋转，逐渐减速停下，适合直播展示。</p>
-                </div>
-
-                <div class="feature-card">
-                    <h4>🔍 智能筛选</h4>
-                    <p>支持多种筛选条件：权限、金币、点券、游戏时长、自定义 PlaceholderAPI 变量。</p>
-                </div>
-
-                <div class="feature-card">
-                    <h4>💾 永久存储</h4>
-                    <p>使用 SQLite 数据库持久化存储待领取物品，服务器重启也不会丢失。</p>
-                </div>
-
-                <h2>依赖插件</h2>
-                <table>
+        </section>
+        <!-- 安装 -->
+        <section id="installation">
+            <h2>📦 安装指南</h2>
+            <h3>依赖要求</h3>
+            <table>
+                <thead>
                     <tr>
                         <th>插件</th>
-                        <th>状态</th>
-                        <th>用途</th>
+                        <th>必须</th>
+                        <th>说明</th>
                     </tr>
+                </thead>
+                <tbody>
                     <tr>
-                        <td>Paper API 1.20.1+</td>
-                        <td><span class="badge badge-required">必需</span></td>
-                        <td>核心 API</td>
+                        <td>Paper API</td>
+                        <td>✅ 是</td>
+                        <td>1.20.1 - 1.21.4 版本</td>
                     </tr>
                     <tr>
                         <td>Vault</td>
-                        <td><span class="badge badge-optional">可选</span></td>
-                        <td>金币筛选</td>
+                        <td>❌ 可选</td>
+                        <td>金币筛选功能</td>
                     </tr>
                     <tr>
                         <td>PlayerPoints</td>
-                        <td><span class="badge badge-optional">可选</span></td>
-                        <td>点券筛选</td>
+                        <td>❌ 可选</td>
+                        <td>点券筛选功能</td>
                     </tr>
                     <tr>
                         <td>PlaceholderAPI</td>
-                        <td><span class="badge badge-optional">可选</span></td>
+                        <td>❌ 可选</td>
                         <td>自定义变量筛选</td>
                     </tr>
-                </table>
-            </section>
-
-            <!-- Installation Section -->
-            <section id="installation" class="section">
-                <h1 class="page-title">⚙️ 安装配置</h1>
-
-                <h2>安装步骤</h2>
-                <ol>
-                    <li>下载 <code>MiaSmartGiftRoll-1.0.0.jar</code></li>
-                    <li>将 JAR 文件放入服务器的 <code>plugins</code> 文件夹</li>
-                    <li>重启服务器或使用 <code>/reload confirm</code></li>
-                    <li>插件会自动创建配置文件和数据库</li>
-                </ol>
-
-                <h2>文件结构</h2>
-                <pre><code>plugins/MiaSmartGiftRoll/
+                </tbody>
+            </table>
+            <h3>安装步骤</h3>
+            <ol>
+                <li>将 <code>MiaSmartGiftRoll-1.0.0.jar</code> 放入服务器 <code>plugins/</code> 目录</li>
+                <li>重启服务器或使用 <code>/reload confirm</code></li>
+                <li>编辑生成的配置文件</li>
+                <li>使用 <code>/sg reload</code> 重载配置</li>
+            </ol>
+            <h3>文件结构</h3>
+            <pre><code>plugins/MiaSmartGiftRoll/
 ├── config.yml          # 主配置文件
 ├── kits/               # 礼包数据
 │   └── *.yml
 └── pending_items.db    # SQLite 数据库</code></pre>
-
-                <div class="tip-box">
-                    <strong>💡 提示:</strong> 首次启动后会自动生成默认配置文件，您可以根据需要修改。
-                </div>
-            </section>
-
-            <!-- Commands Section -->
-            <section id="commands" class="section">
-                <h1 class="page-title">💻 指令大全</h1>
-
-                <h2>管理员指令</h2>
-
-                <div class="command-block">
-                    <div class="cmd">/sg gui</div>
-                    <div class="desc">打开礼包管理界面，可以创建、编辑、删除礼包。</div>
-                </div>
-
-                <div class="command-block">
-                    <div class="cmd">/sg save &lt;id&gt;</div>
-                    <div class="desc">将当前背包中的物品保存为指定 ID 的礼包。</div>
-                </div>
-
-                <div class="command-block">
-                    <div class="cmd">/sg roll &lt;id&gt; &lt;人数&gt; [条件] [数值]</div>
-                    <div class="desc">执行抽奖，打开动画界面。条件类型见筛选条件章节。</div>
-                </div>
-
-                <div class="command-block">
-                    <div class="cmd">/sg reload</div>
-                    <div class="desc">重新加载配置文件和礼包数据。</div>
-                </div>
-
-                <h2>玩家指令</h2>
-
-                <div class="command-block">
-                    <div class="cmd">/sg claim</div>
-                    <div class="desc">打开待领取物品界面，点击物品领取到背包。</div>
-                </div>
-
-                <h2>抽奖示例</h2>
-                <pre><code># 全员抽 1 人
+        </section>
+        <!-- 快速开始 -->
+        <section id="quick-start">
+            <h2>🚀 快速开始</h2>
+            <h3>1. 创建礼包</h3>
+            <pre><code>/sg gui</code></pre>
+            <p>打开礼包管理界面，点击绿宝石创建新礼包，输入礼包ID后进入编辑界面。</p>
+            <h3>2. 编辑礼包</h3>
+            <p>在编辑界面中直接拖拽物品，支持 NBT、附魔、Lore 等所有属性。点击命令方块可以添加控制台指令奖励。</p>
+            <h3>3. 执行抽奖</h3>
+            <pre><code>/sg roll &lt;礼包ID&gt; &lt;人数&gt; [条件] [数值]</code></pre>
+            <p>打开可视化抽奖界面，点击开始按钮启动动画。</p>
+            <h3>4. 领取物品</h3>
+            <pre><code>/sg claim</code></pre>
+            <p>中奖玩家背包满时，物品会暂存。使用此命令打开领取界面。</p>
+        </section>
+        <!-- 命令 -->
+        <section id="commands">
+            <h2>⌨️ 命令列表</h2>
+            <div class="alert alert-info">
+                <div class="alert-title">💡 命令别名</div>
+                主命令 <code>/miasmartgiftroll</code> 可简写为 <code>/sg</code>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>命令</th>
+                        <th>权限</th>
+                        <th>说明</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>/sg gui</code></td>
+                        <td>miasmartgiftroll.admin</td>
+                        <td>打开礼包管理界面</td>
+                    </tr>
+                    <tr>
+                        <td><code>/sg save &lt;id&gt;</code></td>
+                        <td>miasmartgiftroll.admin</td>
+                        <td>将背包物品保存为礼包</td>
+                    </tr>
+                    <tr>
+                        <td><code>/sg roll &lt;id&gt; &lt;人数&gt; [条件] [值]</code></td>
+                        <td>miasmartgiftroll.admin</td>
+                        <td>执行抽奖（打开动画界面）</td>
+                    </tr>
+                    <tr>
+                        <td><code>/sg claim</code></td>
+                        <td>miasmartgiftroll.claim</td>
+                        <td>打开待领取物品界面</td>
+                    </tr>
+                    <tr>
+                        <td><code>/sg reload</code></td>
+                        <td>miasmartgiftroll.admin</td>
+                        <td>重载配置文件</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3>抽奖示例</h3>
+            <pre><code># 全员抽 1 人
 /sg roll weekend_gift 1 all
-
 # 金币≥10000 的玩家抽 3 人
 /sg roll rich_gift 3 money 10000
-
 # 有 vip.roll 权限的玩家抽 5 人
 /sg roll vip_gift 5 perm vip.roll
-
 # 游戏时长≥3600秒(1小时) 的玩家抽 2 人
-/sg roll veteran_gift 2 time 3600</code></pre>
-            </section>
-
-            <!-- GUI Section -->
-            <section id="gui" class="section">
-                <h1 class="page-title">🖼️ GUI 界面</h1>
-
-                <h2>礼包管理界面</h2>
-                <p>使用 <code>/sg gui</code> 打开。</p>
-                <ul>
-                    <li><strong>左键点击</strong> 礼包图标 - 编辑礼包</li>
-                    <li><strong>右键点击</strong> 礼包图标 - 删除礼包</li>
-                    <li>点击 <strong>绿宝石</strong> - 创建新礼包</li>
-                </ul>
-
-                <h2>礼包编辑界面</h2>
-                <p>在编辑界面中，可以直接拖拽物品到 GUI 中设置礼包内容。</p>
-                <ul>
-                    <li><strong>保存按钮</strong> (绿色羊毛) - 保存当前礼包</li>
-                    <li><strong>指令按钮</strong> (命令方块) - 添加控制台指令奖励</li>
-                    <li><strong>取消按钮</strong> (红色羊毛) - 放弃修改</li>
-                </ul>
-
-                <div class="tip-box">
-                    <strong>💡 指令变量:</strong> 在添加控制台指令时，可以使用 <code>%player%</code> 变量，会自动替换为中奖玩家的名字。
-                </div>
-
-                <h2>物品领取界面</h2>
-                <p>使用 <code>/sg claim</code> 打开。</p>
-                <ul>
-                    <li><strong>点击物品</strong> - 领取单个物品到背包</li>
-                    <li><strong>一键领取全部</strong> (漏斗) - 尽可能领取所有物品</li>
-                    <li>背包满时会提示无法领取</li>
-                </ul>
-            </section>
-
-            <!-- Filters Section -->
-            <section id="filters" class="section">
-                <h1 class="page-title">🔍 筛选条件</h1>
-
-                <p>在执行 <code>/sg roll</code> 时，可以指定筛选条件来限制参与抽奖的玩家。</p>
-
-                <table>
+/sg roll veteran_gift 2 time 3600
+# 自定义PAPI变量筛选
+/sg roll gift 1 custom %player_level% >= 10</code></pre>
+        </section>
+        <!-- GUI界面 -->
+        <section id="gui">
+            <h2>🖼️ GUI界面</h2>
+            <h3>礼包管理界面</h3>
+            <p>使用 <code>/sg gui</code> 打开。</p>
+            <ul>
+                <li><strong>左键点击</strong> 礼包图标 - 编辑礼包</li>
+                <li><strong>右键点击</strong> 礼包图标 - 删除礼包</li>
+                <li>点击 <strong>绿宝石</strong> - 创建新礼包</li>
+            </ul>
+            <h3>礼包编辑界面</h3>
+            <p>在编辑界面中，可以直接拖拽物品到 GUI 中设置礼包内容。</p>
+            <ul>
+                <li><strong>保存按钮</strong> (绿色羊毛) - 保存当前礼包</li>
+                <li><strong>指令按钮</strong> (命令方块) - 添加控制台指令奖励</li>
+                <li><strong>取消按钮</strong> (红色羊毛) - 放弃修改</li>
+            </ul>
+            <div class="alert alert-success">
+                <div class="alert-title">💡 指令变量</div>
+                在添加控制台指令时，可以使用 <code>%player%</code> 变量，会自动替换为中奖玩家的名字。
+            </div>
+            <h3>物品领取界面</h3>
+            <p>使用 <code>/sg claim</code> 打开。</p>
+            <ul>
+                <li><strong>点击物品</strong> - 领取单个物品到背包</li>
+                <li><strong>一键领取全部</strong> (漏斗) - 尽可能领取所有物品</li>
+                <li>背包满时会提示无法领取</li>
+            </ul>
+        </section>
+        <!-- 筛选条件 -->
+        <section id="filters">
+            <h2>🔍 筛选条件</h2>
+            <p>在执行 <code>/sg roll</code> 时，可以指定筛选条件来限制参与抽奖的玩家。</p>
+            <table>
+                <thead>
                     <tr>
                         <th>类型</th>
                         <th>参数格式</th>
                         <th>说明</th>
                         <th>依赖</th>
                     </tr>
+                </thead>
+                <tbody>
                     <tr>
                         <td><code>all</code></td>
                         <td>无</td>
@@ -550,63 +577,48 @@
                         <td>PAPI 变量比较</td>
                         <td>PlaceholderAPI</td>
                     </tr>
-                </table>
-
-                <h3>自定义筛选示例</h3>
-                <pre><code># 等级≥10 的玩家
-/sg roll gift 1 custom %player_level% >= 10
-
-# 击杀数≥100 的玩家
-/sg roll gift 1 custom %statistic_player_kills% >= 100</code></pre>
-
-                <div class="warning-box">
-                    <strong>⚠️ 注意:</strong> 使用 custom 筛选需要安装 PlaceholderAPI 并确保对应的扩展已加载。
-                </div>
-            </section>
-
-            <!-- Animation Section -->
-            <section id="animation" class="section">
-                <h1 class="page-title">🎰 抽奖动画</h1>
-
-                <p>执行 <code>/sg roll</code> 时，会打开可视化抽奖界面，非常适合直播展示。</p>
-
-                <h2>界面布局</h2>
-                <ul>
-                    <li><strong>顶部</strong> - 礼包信息（名称、抽取人数、候选人数、筛选条件）</li>
-                    <li><strong>中央环形</strong> - 候选玩家头像，动画旋转</li>
-                    <li><strong>正中央</strong> - 礼包图标 / 抽奖状态 / 中奖玩家</li>
-                    <li><strong>底部</strong> - 开始抽奖按钮</li>
-                </ul>
-
-                <h2>动画流程</h2>
-                <ol>
-                    <li>点击 <strong>▶ 开始抽奖 ◀</strong> 按钮</li>
-                    <li>玩家头像开始高速旋转，配合音效</li>
-                    <li>旋转逐渐减速</li>
-                    <li>停止后显示中奖玩家</li>
-                    <li>自动发放奖励并全服广播</li>
-                </ol>
-
-                <div class="tip-box">
-                    <strong>💡 提示:</strong> 从控制台执行 <code>/sg roll</code> 会跳过动画，直接发放奖励。
-                </div>
-            </section>
-
-            <!-- Config Section -->
-            <section id="config" class="section">
-                <h1 class="page-title">📝 配置文件</h1>
-
-                <h2>config.yml</h2>
-                <pre><code># 调试模式
+                </tbody>
+            </table>
+            <div class="alert alert-warning">
+                <div class="alert-title">⚠️ 注意</div>
+                使用 custom 筛选需要安装 PlaceholderAPI 并确保对应的扩展已加载。
+            </div>
+        </section>
+        <!-- 抽奖动画 -->
+        <section id="animation">
+            <h2>🎰 抽奖动画</h2>
+            <p>执行 <code>/sg roll</code> 时，会打开可视化抽奖界面，非常适合直播展示。</p>
+            <h3>界面布局</h3>
+            <pre><code>槽位布局（54格箱子）:
+第1行: [信息] [信息] [信息] [头像] [头像] [头像] [信息] [信息] [信息]
+第2行: [头像] □ □ □ □ □ □ □ [头像]
+第3行: [头像] □ □ □ [礼包] □ □ □ [头像]
+第4行: [头像] □ □ □ □ □ □ □ [头像]
+第5行: [头像] [头像] [头像] [头像] [头像] [头像] [头像] [头像] [头像]
+第6行: □ □ □ □ [开始] □ □ □ □</code></pre>
+            <h3>动画流程</h3>
+            <ol>
+                <li>点击 <strong>▶ 开始抽奖 ◀</strong> 按钮</li>
+                <li>玩家头像开始高速旋转，配合音效</li>
+                <li>旋转逐渐减速</li>
+                <li>停止后显示中奖玩家</li>
+                <li>自动发放奖励并全服广播</li>
+            </ol>
+            <div class="alert alert-info">
+                <div class="alert-title">💡 提示</div>
+                从控制台执行 <code>/sg roll</code> 会跳过动画，直接发放奖励。
+            </div>
+        </section>
+        <!-- config.yml -->
+        <section id="config">
+            <h2>⚙️ config.yml 配置</h2>
+            <pre><code># 调试模式
 debug: false
-
 # 时间单位 (seconds/minutes/hours)
 time-unit: seconds
-
 # GUI 填充材料
 gui:
   filler-material: GRAY_STAINED_GLASS_PANE
-
 # 消息配置
 messages:
   prefix: "&6[MiaSmartGiftRoll] &r"
@@ -627,18 +639,19 @@ messages:
   pending-claimed: "&a已领取 %count% 件物品！"
   reload-success: "&a配置重载成功！"
   gui-input-kit-id: "&e请在聊天栏输入新礼包的ID："</code></pre>
-            </section>
-
-            <!-- Permissions Section -->
-            <section id="permissions" class="section">
-                <h1 class="page-title">🔒 权限节点</h1>
-
-                <table>
+        </section>
+        <!-- 权限 -->
+        <section id="permissions">
+            <h2>🔒 权限节点</h2>
+            <table>
+                <thead>
                     <tr>
                         <th>权限节点</th>
                         <th>说明</th>
                         <th>默认</th>
                     </tr>
+                </thead>
+                <tbody>
                     <tr>
                         <td><code>miasmartgiftroll.admin</code></td>
                         <td>管理员权限（gui, save, roll, reload）</td>
@@ -649,64 +662,57 @@ messages:
                         <td>领取待装物品</td>
                         <td>所有玩家</td>
                     </tr>
-                </table>
-            </section>
-
-            <!-- Storage Section -->
-            <section id="storage" class="section">
-                <h1 class="page-title">💾 数据存储</h1>
-
-                <h2>SQLite 数据库</h2>
-                <p>待领取物品使用 SQLite 数据库永久存储，位于：</p>
-                <pre><code>plugins/MiaSmartGiftRoll/pending_items.db</code></pre>
-
-                <h3>数据表结构</h3>
-                <pre><code>pending_items:
+                </tbody>
+            </table>
+        </section>
+        <!-- 存储 -->
+        <section id="storage">
+            <h2>💾 数据存储</h2>
+            <h3>SQLite 数据库</h3>
+            <p>待领取物品使用 SQLite 数据库永久存储，位于：</p>
+            <pre><code>plugins/MiaSmartGiftRoll/pending_items.db</code></pre>
+            <h4>数据表结构</h4>
+            <pre><code>pending_items:
 ├── id           INTEGER PRIMARY KEY
 ├── player_uuid  TEXT NOT NULL
 ├── item_data    TEXT NOT NULL (Base64 序列化)
 └── created_at   TIMESTAMP</code></pre>
-
-                <h2>礼包数据</h2>
-                <p>礼包数据使用 YAML 格式存储，每个礼包一个文件：</p>
-                <pre><code>plugins/MiaSmartGiftRoll/kits/
+            <h3>礼包数据</h3>
+            <p>礼包数据使用 YAML 格式存储，每个礼包一个文件：</p>
+            <pre><code>plugins/MiaSmartGiftRoll/kits/
 ├── weekend_gift.yml
 ├── vip_gift.yml
 └── ...</code></pre>
-
-                <div class="warning-box">
-                    <strong>⚠️ 备份提醒:</strong> 建议定期备份 <code>kits/</code> 目录和 <code>pending_items.db</code> 文件。
-                </div>
-            </section>
-        </main>
-    </div>
-
+            <div class="alert alert-warning">
+                <div class="alert-title">⚠️ 备份提醒</div>
+                建议定期备份 <code>kits/</code> 目录和 <code>pending_items.db</code> 文件。
+            </div>
+        </section>
+        <!-- 底部 -->
+        <footer
+            style="text-align: center; padding: 3rem 0; color: var(--text-secondary); border-top: 1px solid var(--border-color); margin-top: 3rem;">
+            <p>MiaSmartGiftRoll Wiki &copy; 2026</p>
+            <p style="font-size: 0.85rem; margin-top: 0.5rem;">Minecraft 1.20.1 - 1.21.4 | Paper</p>
+        </footer>
+    </main>
     <script>
-        function showSection(sectionId) {
-            // Hide all sections
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.remove('active');
+        // 侧边栏高亮
+        const links = document.querySelectorAll('.sidebar-link');
+        const sections = document.querySelectorAll('section');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
             });
-            
-            // Show target section
-            document.getElementById(sectionId).classList.add('active');
-            
-            // Update nav links
-            document.querySelectorAll('.nav-link').forEach(link => {
+            links.forEach(link => {
                 link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
             });
-            event.target.closest('.nav-link').classList.add('active');
-            
-            // Update URL hash
-            window.location.hash = sectionId;
-        }
-
-        // Handle initial hash
-        window.addEventListener('load', function() {
-            const hash = window.location.hash.substring(1);
-            if (hash && document.getElementById(hash)) {
-                showSection(hash);
-            }
         });
     </script>
 </body>
