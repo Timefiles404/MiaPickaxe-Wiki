@@ -188,7 +188,7 @@
             font-family: 'JetBrains Mono', 'Consolas', monospace;
             font-size: 0.85rem;
         }
-        :not(pre) > code {
+        :not(pre)>code {
             background: var(--bg-tertiary);
             padding: 0.2rem 0.4rem;
             border-radius: 4px;
@@ -200,7 +200,8 @@
             border-collapse: collapse;
             margin: 1rem 0;
         }
-        th, td {
+        th,
+        td {
             padding: 0.75rem 1rem;
             border: 1px solid var(--border-color);
             text-align: left;
@@ -245,7 +246,8 @@
             color: var(--text-primary);
         }
         /* 列表 */
-        ul, ol {
+        ul,
+        ol {
             margin: 1rem 0;
             padding-left: 1.5rem;
             color: var(--text-secondary);
@@ -361,7 +363,6 @@
         <section id="overview">
             <h2>📖 插件概述</h2>
             <p>MiaPickaxe 是一款高度可定制的镐子升级系统插件，让玩家通过挖掘方块来提升镐子等级，并独立升级效率、时运、耐久三种属性。</p>
-            
             <div class="card-grid">
                 <div class="card">
                     <div class="card-icon">⚡</div>
@@ -388,7 +389,6 @@
         <!-- 安装 -->
         <section id="installation">
             <h2>📦 安装指南</h2>
-            
             <h3>依赖要求</h3>
             <table>
                 <thead>
@@ -432,7 +432,6 @@
         <!-- 快速开始 -->
         <section id="quick-start">
             <h2>🚀 快速开始</h2>
-            
             <h3>1. 获取镐子</h3>
             <pre><code>/mpa give &lt;玩家名&gt;</code></pre>
             <p>管理员可以给玩家发放一把初始的神话镐子（下界合金材质）。</p>
@@ -448,7 +447,6 @@
         <!-- 命令 -->
         <section id="commands">
             <h2>⌨️ 命令列表</h2>
-            
             <div class="alert alert-info">
                 <div class="alert-title">💡 命令别名</div>
                 主命令 <code>/miapickaxe</code> 可简写为 <code>/mpickaxe</code> 或 <code>/mpa</code>
@@ -518,19 +516,16 @@
         <!-- GUI界面 -->
         <section id="gui">
             <h2>🖼️ GUI界面</h2>
-            
             <div class="alert alert-success">
                 <div class="alert-title">✨ 快捷键</div>
                 手持MiaPickaxe镐子时，<strong>Shift+右键</strong> 可直接打开主菜单，无需输入命令！
             </div>
-            
             <h3>主菜单 GUI（新）</h3>
             <p>通过 <strong>Shift+右键</strong> 打开的中转页面，选择要进入的功能界面。</p>
             <pre><code>槽位布局（27格箱子）:
 第1行: □ □ □ □ □ □ □ □ □
 第2行: □ □ □ [锻造台] □ [石头台] □ □ □
 第3行: □ □ □ □ [关闭] □ □ □ □</code></pre>
-            
             <h3>锻造台 GUI</h3>
             <p>通过 <code>/mpa forge</code> 或主菜单打开，用于升级镐子的三种属性。</p>
             <p><strong>新特性:</strong> MythicMobs物品在消耗显示中会显示物品的<strong>显示名称</strong>而非ID。</p>
@@ -548,7 +543,6 @@
         <!-- 升级系统 -->
         <section id="upgrades">
             <h2>⬆️ 升级系统</h2>
-            
             <h3>主等级（Mastery Level）</h3>
             <p>基于挖掘方块数自动升级的里程碑系统。</p>
             <table>
@@ -560,16 +554,35 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>1</td><td>0</td><td>§7神话镐子 [Lv.1]</td></tr>
-                    <tr><td>2</td><td>1,000</td><td>§b神话镐子 [Lv.2]</td></tr>
-                    <tr><td>3</td><td>5,000</td><td>§d神话镐子 [Lv.3]</td></tr>
-                    <tr><td>4</td><td>15,000</td><td>§6神话镐子 [Lv.4]</td></tr>
-                    <tr><td>5</td><td>50,000</td><td>§c神话镐子 [Lv.5]</td></tr>
+                    <tr>
+                        <td>1</td>
+                        <td>0</td>
+                        <td>§7神话镐子 [Lv.1]</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>1,000</td>
+                        <td>§b神话镐子 [Lv.2]</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>5,000</td>
+                        <td>§d神话镐子 [Lv.3]</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>15,000</td>
+                        <td>§6神话镐子 [Lv.4]</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>50,000</td>
+                        <td>§c神话镐子 [Lv.5]</td>
+                    </tr>
                 </tbody>
             </table>
             <h3>属性升级</h3>
             <p>效率、时运、耐久三种属性独立升级，每种都有自己的等级、消耗和成功率配置。</p>
-            
             <h4>升级要求</h4>
             <ul>
                 <li><strong>min-blocks:</strong> 最低挖掘数要求</li>
@@ -590,7 +603,6 @@
         <!-- 绑定系统 -->
         <section id="binding">
             <h2>🔗 绑定系统</h2>
-            
             <h3>灵魂绑定特性</h3>
             <ul>
                 <li>绑定后，镐子与玩家的UUID关联</li>
@@ -606,7 +618,6 @@
         <!-- 石头物品 -->
         <section id="stones">
             <h2>💎 石头物品</h2>
-            
             <table>
                 <thead>
                     <tr>
@@ -617,6 +628,12 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <tr>
+                        <td>§b修复石</td>
+                        <td>海晶碎片</td>
+                        <td>完全修复镐子的耐久度</td>
+                        <td><code>/mpa givestone &lt;玩家&gt; repair</code></td>
+                    </tr>
                     <tr>
                         <td>§d绑定石</td>
                         <td>紫水晶碎片</td>
@@ -635,13 +652,25 @@
                         <td>赋予镐子永恒不朽的力量（无法破坏）</td>
                         <td><code>/mpa givestone &lt;玩家&gt; unbreakable</code></td>
                     </tr>
+                    <tr>
+                        <td>§5切换石</td>
+                        <td>末影水晶</td>
+                        <td>装备后可在时运/精准采集之间切换</td>
+                        <td><code>/mpa givestone &lt;玩家&gt; toggle</code></td>
+                    </tr>
                 </tbody>
             </table>
+            <h3>时运/精准切换功能</h3>
+            <ul>
+                <li>使用切换石装备到镐子上</li>
+                <li>在主菜单（Shift+右键）中点击切换按钮</li>
+                <li>时运和精准采集共用等级，切换不会改变等级</li>
+                <li>精准采集模式下无法升级时运</li>
+            </ul>
         </section>
         <!-- config.yml -->
         <section id="config">
             <h2>⚙️ config.yml 配置</h2>
-            
             <h3>调试模式</h3>
             <pre><code>debug: false  # 设为true开启详细日志</code></pre>
             <h3>绑定设置</h3>
@@ -686,10 +715,12 @@ lore-template:
   - "&7挖掘数量: &a{mined_blocks}"
   - "&7距离下一级还需要: &c{blocks_to_next}"
   - "&7效率: &b{efficiency_level}"
-  - "&7时运: &d{fortune_level}"
+  - "&7{fortune_name}: &d{fortune_level}"  # fortune_name自动显示"时运"或"精准采集"
   - "&7耐久: &a{unbreaking_level}"
   - "&7耐久度: {unbreakable_status}"  # 使用无法破坏石后才显示
   - "{binding_status}"
+# 绑定状态显示模板
+# 注意：如需换行显示，请使用|符号分隔多行
 binding-lore:
   bound: "&a已绑定: &e绑定者[{player}]"
   unbound: "&7未绑定"
@@ -698,8 +729,10 @@ unbreakable-lore:
             <div class="alert alert-info">
                 <div class="alert-title">💡 Lore变量说明</div>
                 <ul>
+                    <li><code>{fortune_name}</code> - 根据状态自动显示"时运"或"精准采集"</li>
+                    <li><code>{fortune_level}</code> - 时运等级（数字）</li>
                     <li><code>{unbreakable_status}</code> - 使用无法破坏石前此行隐藏，使用后显示配置的文本</li>
-                    <li><code>{binding_status}</code> - 根据绑定状态显示不同文本</li>
+                    <li><code>{binding_status}</code> - 根据绑定状态显示不同文本，支持使用<code>|</code>换行</li>
                     <li>其他插件添加的Lore会被保留在MiaPickaxe Lore的前后</li>
                 </ul>
             </div>
@@ -707,7 +740,6 @@ unbreakable-lore:
         <!-- 挖掘白名单 -->
         <section id="whitelist">
             <h2>📋 挖掘白名单</h2>
-            
             <p>文件位置: <code>plugins/MiaPickaxe/mining-whitelist.txt</code></p>
             <p>只有在这个文件中配置的方块才会增加挖掘计数，每行格式: <code>方块名:倍率</code></p>
             <pre><code># 示例配置
@@ -724,11 +756,9 @@ deepslate:0.5        # 深板岩，倍率0.5</code></pre>
         <!-- 开发者 -->
         <section id="developer">
             <h2>🔧 开发者指南</h2>
-            
             <h3>启用调试模式</h3>
             <p>在 <code>config.yml</code> 中设置:</p>
             <pre><code>debug: true</code></pre>
-            
             <p>调试模式会输出以下信息:</p>
             <ul>
                 <li>方块白名单加载详情</li>
@@ -745,7 +775,6 @@ deepslate:0.5        # 深板岩，倍率0.5</code></pre>
         <!-- API -->
         <section id="api">
             <h2>📚 API 接口</h2>
-            
             <h3>获取插件实例</h3>
             <pre><code>MiaPickaxe plugin = MiaPickaxe.getInstance();</code></pre>
             <h3>检查是否为MiaPickaxe镐子</h3>
@@ -772,7 +801,6 @@ data.setUnbreakable(true); // 设置无法破坏</code></pre>
         <!-- 编译构建 -->
         <section id="build">
             <h2>🔨 编译构建</h2>
-            
             <h3>环境要求</h3>
             <ul>
                 <li>JDK 17+</li>
@@ -824,7 +852,8 @@ target/MiaPickaxe-1.0.0.jar</code></pre>
             </div>
         </section>
         <!-- 底部 -->
-        <footer style="text-align: center; padding: 3rem 0; color: var(--text-secondary); border-top: 1px solid var(--border-color); margin-top: 3rem;">
+        <footer
+            style="text-align: center; padding: 3rem 0; color: var(--text-secondary); border-top: 1px solid var(--border-color); margin-top: 3rem;">
             <p>MiaPickaxe Wiki &copy; 2026 | Made By Timefiles</p>
             <p style="font-size: 0.85rem; margin-top: 0.5rem;">Minecraft 1.20.1 - 1.21.4 | Paper/Spigot</p>
         </footer>
