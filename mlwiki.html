@@ -57,6 +57,79 @@
             background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .wiki-switcher {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.5rem 0;
+            min-width: 220px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            z-index: 1001;
+        }
+
+        .wiki-switcher.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .wiki-switcher a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .wiki-switcher a:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .wiki-switcher .wiki-icon {
+            font-size: 1.2rem;
+        }
+
+        .wiki-switcher .wiki-title {
+            -webkit-text-fill-color: var(--text-secondary);
+        }
+
+        .wiki-switcher a:hover .wiki-title {
+            -webkit-text-fill-color: var(--text-primary);
+        }
+
+        .navbar-brand-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .navbar-brand-arrow {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            transition: transform 0.2s;
+            -webkit-text-fill-color: var(--text-secondary);
+        }
+
+        .navbar-brand-wrapper.active .navbar-brand-arrow {
+            transform: rotate(180deg);
         }
 
         .navbar-links {
@@ -367,7 +440,20 @@
 <body>
     <!-- 导航栏 -->
     <nav class="navbar">
-        <div class="navbar-brand">⏰ MiaLimitation</div>
+        <div class="navbar-brand-wrapper" onclick="toggleWikiSwitcher(this)">
+            <div class="navbar-brand">⏰ MiaLimitation</div>
+            <span class="navbar-brand-arrow">▼</span>
+            <div class="wiki-switcher">
+                <a href="wiki.html">
+                    <span class="wiki-icon">⛏️</span>
+                    <span class="wiki-title">MiaPickaxe Wiki</span>
+                </a>
+                <a href="sgwiki.html">
+                    <span class="wiki-icon">🎁</span>
+                    <span class="wiki-title">MiaSmartGiftRoll Wiki</span>
+                </a>
+            </div>
+        </div>
         <div class="navbar-links">
             <a href="#overview">概述</a>
             <a href="#commands">命令</a>
@@ -759,6 +845,19 @@ src/main/resources/
     </main>
 
     <script>
+        // Wiki切换器
+        function toggleWikiSwitcher(wrapper) {
+            wrapper.classList.toggle('active');
+            wrapper.querySelector('.wiki-switcher').classList.toggle('active');
+        }
+        // 点击其他地方关闭切换器
+        document.addEventListener('click', function(e) {
+            const wrapper = document.querySelector('.navbar-brand-wrapper');
+            if (wrapper && !wrapper.contains(e.target)) {
+                wrapper.classList.remove('active');
+                wrapper.querySelector('.wiki-switcher').classList.remove('active');
+            }
+        });
         // 侧边栏高亮
         const links = document.querySelectorAll('.sidebar-link');
         const sections = document.querySelectorAll('section');
