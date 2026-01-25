@@ -509,6 +509,7 @@
             <ul>
                 <li><strong>饰品槽位</strong> - 中间区域，用于放置不同类型的饰品</li>
                 <li><strong>翻页按钮</strong> - 底部左右两侧，用于切换页面</li>
+                <li><strong>统计按钮</strong> - 右侧区域，显示套装效果和槽位增益总计</li>
                 <li><strong>功能按钮</strong> - 底部中间，包括关闭和页面信息</li>
                 <li><strong>背景填充</strong> - 边框区域的装饰方块</li>
             </ul>
@@ -516,9 +517,43 @@
             <ul>
                 <li><strong>左键点击空槽位</strong> - 放入手持的饰品</li>
                 <li><strong>右键点击已装备槽位</strong> - 卸下饰品到背包</li>
+                <li><strong>Shift+左键点击已装备槽位</strong> - 升级槽位</li>
                 <li><strong>点击锁定槽位</strong> - 尝试解锁（需满足条件）</li>
-                <li><strong>Shift + 点击背包饰品</strong> - 自动装备到匹配的空槽位</li>
             </ul>
+            <h3>已装备槽位显示</h3>
+            <p>当饰品装备到槽位后，显示内容包括：</p>
+            <ul>
+                <li><strong>物品原有Lore</strong> - 饰品自身的属性和描述</li>
+                <li><strong>当前槽位等级</strong> - 显示 Lv.X 和已获得的属性加成</li>
+                <li><strong>下一级升级信息</strong> - 升级条件和属性预览</li>
+                <li><strong>操作提示</strong> - Shift+左键升级，右键卸下</li>
+            </ul>
+            <h3>统计按钮</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>按钮ID</th>
+                        <th>名称</th>
+                        <th>说明</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>set-bonus-summary</code></td>
+                        <td>⚔ 套装效果</td>
+                        <td>显示当前页面激活的所有套装属性加成总和</td>
+                    </tr>
+                    <tr>
+                        <td><code>slot-bonus-summary</code></td>
+                        <td>⬆ 槽位增益</td>
+                        <td>显示当前页面所有槽位升级提供的属性总和</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="alert alert-info">
+                <div class="alert-title">💡 提示</div>
+                统计按钮会实时计算当前页面的属性加成，方便玩家了解套装效果和槽位升级收益。
+            </div>
         </section>
         <!-- 槽位系统 -->
         <section id="slots">
@@ -1017,6 +1052,8 @@ locked-slot:
                 <li><code>next-page</code> - 下一页按钮</li>
                 <li><code>close</code> - 关闭按钮</li>
                 <li><code>page-info</code> - 页面信息显示</li>
+                <li><code>set-bonus-summary</code> - 套装效果总计（显示当前页面套装属性）</li>
+                <li><code>slot-bonus-summary</code> - 槽位增益总计（显示当前页面槽位升级属性）</li>
             </ul>
             <h3>background - 背景填充</h3>
             <table>
