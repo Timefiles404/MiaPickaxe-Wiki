@@ -608,8 +608,39 @@
                 <li><code>points</code> - PlayerPoints 点券</li>
                 <li><code>exp-levels</code> - 经验等级</li>
                 <li><code>permission</code> - 权限节点</li>
-                <li><code>mm-items</code> - MythicMobs 物品</li>
+                <li><code>mm-items</code> - MythicMobs 物品 (格式: 物品ID: 数量)</li>
             </ul>
+            <h4>MM物品解锁配置示例</h4>
+            <pre><code># slots.yml 中使用MM物品作为解锁/升级条件
+ring_2:
+  unlock:
+    vault: 10000
+    mm-items:
+      解锁石: 1
+      神秘碎片: 5
+  upgrades:
+    1:
+      vault: 5000
+      mm-items:
+        强化石: 3
+      attributes:
+        生命值: 10</code></pre>
+            <h3>页面解锁</h3>
+            <p>饰品背包支持多页面，后续页面需要解锁才能使用。每页的槽位状态是<strong>独立</strong>的。</p>
+            <pre><code># config.yml 页面解锁配置
+page-unlock:
+  start-from: 1        # 从第2页开始需要解锁
+  requirements:
+    vault: 10000       # 基础金币需求
+    points: 100        # 基础点券需求
+    mm-items:
+      解锁石: 1        # MM物品需求
+  increment: 0.5       # 递增系数 (每页需求翻倍)</code></pre>
+            <div class="alert alert-info">
+                <div class="alert-title">💡 页面解锁计算</div>
+                <p>每页解锁需求 = 基础需求 × (1 + 递增系数 × 页面序号)</p>
+                <p>例如：第3页(序号2)解锁金币 = 10000 × (1 + 0.5 × 2) = 20000</p>
+            </div>
             <h3>槽位升级</h3>
             <p>已解锁的槽位可以升级，每级可以自定义配置<strong>具体的属性加成</strong>。属性加成是<strong>累加</strong>的，玩家升到更高等级时会获得之前所有等级的属性总和。</p>
             <pre><code># slots.yml 升级配置示例
