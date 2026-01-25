@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,20 +21,17 @@
             --accent-cyan: #06b6d4;
             --accent-orange: #f97316;
         }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: 'Inter', sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             line-height: 1.7;
         }
-
         /* 导航栏 */
         .navbar {
             position: fixed;
@@ -51,7 +47,6 @@
             padding: 0 2rem;
             z-index: 1000;
         }
-
         .navbar-brand {
             font-size: 1.5rem;
             font-weight: 700;
@@ -59,24 +54,20 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
         .navbar-links {
             margin-left: auto;
             display: flex;
             gap: 2rem;
         }
-
         .navbar-links a {
             color: var(--text-secondary);
             text-decoration: none;
             font-weight: 500;
             transition: color 0.2s;
         }
-
         .navbar-links a:hover {
             color: var(--text-primary);
         }
-
         /* 侧边栏 */
         .sidebar {
             position: fixed;
@@ -89,11 +80,9 @@
             padding: 1.5rem;
             overflow-y: auto;
         }
-
         .sidebar-section {
             margin-bottom: 1.5rem;
         }
-
         .sidebar-title {
             font-size: 0.75rem;
             font-weight: 600;
@@ -102,7 +91,6 @@
             letter-spacing: 0.05em;
             margin-bottom: 0.75rem;
         }
-
         .sidebar-link {
             display: block;
             padding: 0.5rem 0.75rem;
@@ -112,17 +100,14 @@
             font-size: 0.9rem;
             transition: all 0.2s;
         }
-
         .sidebar-link:hover {
             background: var(--bg-tertiary);
             color: var(--text-primary);
         }
-
         .sidebar-link.active {
             background: linear-gradient(135deg, rgba(249, 115, 22, 0.2), rgba(234, 179, 8, 0.2));
             color: var(--accent-orange);
         }
-
         /* 主内容区 */
         .main-content {
             margin-left: 280px;
@@ -130,7 +115,6 @@
             padding: 2rem 3rem;
             max-width: 900px;
         }
-
         /* Hero 区域 */
         .hero {
             text-align: center;
@@ -140,7 +124,6 @@
             margin-bottom: 3rem;
             border: 1px solid var(--border-color);
         }
-
         .hero h1 {
             font-size: 2.5rem;
             font-weight: 700;
@@ -149,14 +132,12 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
         .hero p {
             color: var(--text-secondary);
             font-size: 1.1rem;
             max-width: 600px;
             margin: 0 auto;
         }
-
         .version-badge {
             display: inline-block;
             background: var(--accent-green);
@@ -167,13 +148,11 @@
             font-weight: 600;
             margin-top: 1rem;
         }
-
         /* 章节标题 */
         section {
             margin-bottom: 3rem;
             scroll-margin-top: 80px;
         }
-
         h2 {
             font-size: 1.75rem;
             font-weight: 600;
@@ -181,26 +160,22 @@
             padding-bottom: 0.5rem;
             border-bottom: 2px solid var(--border-color);
         }
-
         h3 {
             font-size: 1.25rem;
             font-weight: 600;
             margin: 1.5rem 0 0.75rem;
             color: var(--accent-cyan);
         }
-
         h4 {
             font-size: 1rem;
             font-weight: 600;
             margin: 1rem 0 0.5rem;
             color: var(--accent-yellow);
         }
-
         p {
             margin-bottom: 1rem;
             color: var(--text-secondary);
         }
-
         /* 代码块 */
         pre {
             background: var(--bg-tertiary);
@@ -210,47 +185,39 @@
             overflow-x: auto;
             margin: 1rem 0;
         }
-
         code {
             font-family: 'JetBrains Mono', 'Consolas', monospace;
             font-size: 0.85rem;
         }
-
         :not(pre)>code {
             background: var(--bg-tertiary);
             padding: 0.2rem 0.4rem;
             border-radius: 4px;
             color: var(--accent-purple);
         }
-
         /* 表格 */
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 1rem 0;
         }
-
         th,
         td {
             padding: 0.75rem 1rem;
             border: 1px solid var(--border-color);
             text-align: left;
         }
-
         th {
             background: var(--bg-tertiary);
             font-weight: 600;
             color: var(--text-primary);
         }
-
         td {
             color: var(--text-secondary);
         }
-
         tr:hover td {
             background: rgba(255, 255, 255, 0.02);
         }
-
         /* 提示框 */
         .alert {
             padding: 1rem 1.25rem;
@@ -258,33 +225,27 @@
             margin: 1rem 0;
             border-left: 4px solid;
         }
-
         .alert-info {
             background: rgba(59, 130, 246, 0.1);
             border-color: var(--accent-blue);
         }
-
         .alert-warning {
             background: rgba(234, 179, 8, 0.1);
             border-color: var(--accent-yellow);
         }
-
         .alert-success {
             background: rgba(34, 197, 94, 0.1);
             border-color: var(--accent-green);
         }
-
         .alert-danger {
             background: rgba(239, 68, 68, 0.1);
             border-color: var(--accent-red);
         }
-
         .alert-title {
             font-weight: 600;
             margin-bottom: 0.25rem;
             color: var(--text-primary);
         }
-
         /* 列表 */
         ul,
         ol {
@@ -292,11 +253,9 @@
             padding-left: 1.5rem;
             color: var(--text-secondary);
         }
-
         li {
             margin-bottom: 0.5rem;
         }
-
         /* 卡片 */
         .card-grid {
             display: grid;
@@ -304,7 +263,6 @@
             gap: 1rem;
             margin: 1.5rem 0;
         }
-
         .card {
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
@@ -312,59 +270,48 @@
             padding: 1.25rem;
             transition: transform 0.2s, box-shadow 0.2s;
         }
-
         .card:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
         }
-
         .card-icon {
             font-size: 2rem;
             margin-bottom: 0.75rem;
         }
-
         .card-title {
             font-weight: 600;
             margin-bottom: 0.5rem;
         }
-
         .card-desc {
             font-size: 0.9rem;
             color: var(--text-secondary);
         }
-
         /* 响应式 */
         @media (max-width: 1024px) {
             .sidebar {
                 display: none;
             }
-
             .main-content {
                 margin-left: 0;
                 padding: 1.5rem;
             }
         }
-
         /* 滚动条 */
         ::-webkit-scrollbar {
             width: 8px;
         }
-
         ::-webkit-scrollbar-track {
             background: var(--bg-primary);
         }
-
         ::-webkit-scrollbar-thumb {
             background: var(--border-color);
             border-radius: 4px;
         }
-
         ::-webkit-scrollbar-thumb:hover {
             background: var(--text-secondary);
         }
     </style>
 </head>
-
 <body>
     <!-- 导航栏 -->
     <nav class="navbar">
@@ -376,7 +323,6 @@
             <a href="#developer">开发者</a>
         </div>
     </nav>
-
     <!-- 侧边栏 -->
     <aside class="sidebar">
         <div class="sidebar-section">
@@ -406,7 +352,6 @@
             <a href="#build" class="sidebar-link">编译构建</a>
         </div>
     </aside>
-
     <!-- 主内容 -->
     <main class="main-content">
         <!-- Hero -->
@@ -415,12 +360,10 @@
             <p>RPG进阶饰品背包系统 - 为你的服务器添加专业的饰品装备功能</p>
             <span class="version-badge">v1.0.0 | MC 1.20.1 - 1.21.4 | Paper</span>
         </div>
-
         <!-- 概述 -->
         <section id="overview">
             <h2>📖 插件概述</h2>
             <p>MiaAccessoryPlus 是一款功能丰富的 RPG 饰品背包插件，提供独立于玩家背包的饰品存储系统，支持槽位养成、套装效果和 AttributePlus 属性集成。</p>
-
             <div class="card-grid">
                 <div class="card">
                     <div class="card-icon">💍</div>
@@ -444,11 +387,9 @@
                 </div>
             </div>
         </section>
-
         <!-- 安装 -->
         <section id="installation">
             <h2>📦 安装指南</h2>
-
             <h3>依赖要求</h3>
             <table>
                 <thead>
@@ -486,7 +427,6 @@
                     </tr>
                 </tbody>
             </table>
-
             <h3>安装步骤</h3>
             <ol>
                 <li>确保已安装 <code>AttributePlus</code> 插件</li>
@@ -496,34 +436,26 @@
                 <li>使用 <code>/accessory</code> 命令打开饰品背包</li>
             </ol>
         </section>
-
         <!-- 快速开始 -->
         <section id="quick-start">
             <h2>🚀 快速开始</h2>
-
             <h3>1. 打开饰品背包</h3>
             <pre><code>/accessory</code></pre>
             <p>或使用别名 <code>/acc</code>、<code>/饰品</code></p>
-
             <h3>2. 装备饰品</h3>
             <p>将符合类型要求的饰品拖放到对应槽位，或按住 Shift 点击背包中的饰品自动装备。</p>
-
             <h3>3. 查看属性</h3>
             <p>饰品装备后，属性会自动提交到 AttributePlus，可通过 AP 的属性面板查看。</p>
-
             <h3>4. 套装激活</h3>
             <p>当同一页内集齐套装所需的饰品时，套装效果自动激活。</p>
-
             <div class="alert alert-info">
                 <div class="alert-title">💡 提示</div>
                 套装效果仅在同一页内计算，不同页面之间的饰品不会触发套装。
             </div>
         </section>
-
         <!-- 命令 -->
         <section id="commands">
             <h2>⌨️ 命令列表</h2>
-
             <h3>玩家命令</h3>
             <table>
                 <thead>
@@ -541,7 +473,6 @@
                     </tr>
                 </tbody>
             </table>
-
             <h3>管理命令</h3>
             <table>
                 <thead>
@@ -565,17 +496,14 @@
                     </tr>
                 </tbody>
             </table>
-
             <div class="alert alert-warning">
                 <div class="alert-title">⚠️ 注意</div>
                 管理命令需要 <code>miaaccessoryplus.admin</code> 权限（默认 OP）
             </div>
         </section>
-
         <!-- GUI界面 -->
         <section id="gui">
             <h2>🖼️ GUI界面</h2>
-
             <h3>界面布局</h3>
             <p>饰品背包是一个 6 行的箱子界面，包含以下区域：</p>
             <ul>
@@ -584,7 +512,6 @@
                 <li><strong>功能按钮</strong> - 底部中间，包括关闭和页面信息</li>
                 <li><strong>背景填充</strong> - 边框区域的装饰方块</li>
             </ul>
-
             <h3>槽位交互</h3>
             <ul>
                 <li><strong>左键点击空槽位</strong> - 放入手持的饰品</li>
@@ -593,11 +520,9 @@
                 <li><strong>Shift + 点击背包饰品</strong> - 自动装备到匹配的空槽位</li>
             </ul>
         </section>
-
         <!-- 槽位系统 -->
         <section id="slots">
             <h2>🔓 槽位系统</h2>
-
             <h3>槽位类型</h3>
             <p>默认配置包含以下槽位类型：</p>
             <table>
@@ -641,7 +566,6 @@
                     </tr>
                 </tbody>
             </table>
-
             <h3>槽位解锁</h3>
             <p>锁定的槽位需要满足条件才能解锁，支持以下消耗：</p>
             <ul>
@@ -651,32 +575,51 @@
                 <li><code>permission</code> - 权限节点</li>
                 <li><code>mm-items</code> - MythicMobs 物品</li>
             </ul>
-
             <h3>槽位升级</h3>
-            <p>已解锁的槽位可以升级，每级提供额外的属性加成百分比。</p>
+            <p>已解锁的槽位可以升级，每级可以自定义配置<strong>具体的属性加成</strong>。属性加成是<strong>累加</strong>的，玩家升到更高等级时会获得之前所有等级的属性总和。</p>
             <pre><code># slots.yml 升级配置示例
 upgrades:
   1:
     vault: 5000
-    attribute-bonus: 5  # +5% 属性加成
+    attributes:
+      生命值: 10
+      物理攻击: 5
   2:
     vault: 15000
     points: 100
-    attribute-bonus: 10  # +10% 属性加成</code></pre>
+    attributes:
+      生命值: 20
+      物理攻击: 10
+      暴击率: 2
+  3:
+    vault: 50000
+    points: 300
+    mm-items:
+      强化石: 5
+    attributes:
+      生命值: 50
+      物理攻击: 25
+      暴击率: 5
+      暴击伤害: 10</code></pre>
+            <div class="alert alert-success">
+                <div class="alert-title">✅ 属性累加示例</div>
+                <p>如果玩家的槽位升到 Lv.2，则获得的总属性为：</p>
+                <ul>
+                    <li>生命值: 10 + 20 = <strong>30</strong></li>
+                    <li>物理攻击: 5 + 10 = <strong>15</strong></li>
+                    <li>暴击率: 0 + 2 = <strong>2</strong></li>
+                </ul>
+            </div>
         </section>
-
         <!-- 套装系统 -->
         <section id="sets">
             <h2>⚔️ 套装系统</h2>
-
             <h3>套装匹配</h3>
             <p>套装通过 <strong>MythicMobs 物品ID</strong> 进行匹配。当玩家在同一页面装备了套装所需的饰品时，套装效果自动激活。</p>
-
             <div class="alert alert-success">
                 <div class="alert-title">✅ 核心特性</div>
                 套装检测以"单页"为单位隔离计算，不同页面的饰品不会互相影响套装激活。
             </div>
-
             <h3>套装效果</h3>
             <p>套装可以配置多个层级的效果，根据装备的件数激活不同的加成：</p>
             <pre><code># sets.yml 套装配置示例
@@ -693,7 +636,6 @@ flame_set:
     3:  # 3件效果
       物理攻击: 120
       火焰伤害: 25</code></pre>
-
             <h3>属性格式</h3>
             <p>套装属性使用 <code>属性名称: 数值</code> 格式，支持正负值：</p>
             <ul>
@@ -701,15 +643,12 @@ flame_set:
                 <li><code>冷却缩减: -10</code> - 减少 10 点冷却时间</li>
             </ul>
         </section>
-
         <!-- 主配置 -->
         <section id="config">
             <h2>⚙️ 主配置 (config.yml)</h2>
             <p>主配置文件控制插件的核心行为，包括数据库设置、识别模式和属性计算。</p>
-
             <h3>完整配置示例</h3>
             <pre><code># MiaAccessoryPlus 主配置文件
-
 # 数据库配置
 database:
   type: sqlite  # sqlite / mysql
@@ -719,10 +658,8 @@ database:
     database: miaaccessoryplus
     username: root
     password: ""
-
 # 最大页数限制
 max-pages: 10
-
 # 饰品识别模式
 recognition:
   mode: both  # lore / config / both
@@ -733,15 +670,12 @@ recognition:
     耳环: "\\[类型[:：]\\s*耳环\\]"
     护符: "\\[类型[:：]\\s*护符\\]"
     徽章: "\\[类型[:：]\\s*徽章\\]"
-
 # 属性设置
 attributes:
   source-name: "MiaAccessoryPlus"
   calculate-delay: 2
-
 # 调试模式
 debug: false</code></pre>
-
             <h3>database - 数据库配置</h3>
             <table>
                 <thead>
@@ -791,7 +725,6 @@ debug: false</code></pre>
                     </tr>
                 </tbody>
             </table>
-
             <h3>max-pages - 最大页数</h3>
             <table>
                 <thead>
@@ -811,7 +744,6 @@ debug: false</code></pre>
                     </tr>
                 </tbody>
             </table>
-
             <h3>recognition - 饰品识别配置</h3>
             <table>
                 <thead>
@@ -838,7 +770,6 @@ debug: false</code></pre>
                     </tr>
                 </tbody>
             </table>
-
             <div class="alert alert-info">
                 <div class="alert-title">💡 正则表达式示例</div>
                 <ul>
@@ -848,7 +779,6 @@ debug: false</code></pre>
                     <li><code>^§e✦ 戒指</code> - 匹配以 "§e✦ 戒指" 开头的Lore</li>
                 </ul>
             </div>
-
             <h3>attributes - 属性设置</h3>
             <table>
                 <thead>
@@ -874,7 +804,6 @@ debug: false</code></pre>
                     </tr>
                 </tbody>
             </table>
-
             <h3>debug - 调试模式</h3>
             <table>
                 <thead>
@@ -895,21 +824,16 @@ debug: false</code></pre>
                 </tbody>
             </table>
         </section>
-
         <!-- GUI配置 -->
         <section id="gui-config">
             <h2>🖼️ GUI配置 (gui.yml)</h2>
             <p>GUI配置文件控制饰品背包界面的布局、槽位位置和按钮样式。</p>
-
             <h3>完整配置示例</h3>
             <pre><code># MiaAccessoryPlus GUI布局配置
-
 # 界面标题 (支持 %page% 占位符)
 title: "&6&l饰品背包 &7- &e第 %page% 页"
-
 # 界面行数 (1-6)
 rows: 6
-
 # 槽位配置
 slots:
   ring_1:
@@ -948,7 +872,6 @@ slots:
   badge_2:
     position: 32
     type: 徽章
-
 # 功能按钮
 buttons:
   prev-page:
@@ -976,7 +899,6 @@ buttons:
     lore:
       - "&7当前页: &f%page%"
       - "&7总页数: &f%max_page%"
-
 # 背景填充
 background:
   enabled: true
@@ -991,21 +913,18 @@ background:
     - 26
     - 27
     - 35
-
 # 空槽位显示
 empty-slot:
   material: LIGHT_GRAY_STAINED_GLASS_PANE
   name: "&7空槽位"
   lore:
     - "&7将饰品拖放到此处"
-
 # 锁定槽位显示
 locked-slot:
   material: RED_STAINED_GLASS_PANE
   name: "&c&l✖ 槽位未解锁"
   lore:
     - "&7点击查看解锁条件"</code></pre>
-
             <h3>基础设置</h3>
             <table>
                 <thead>
@@ -1028,7 +947,6 @@ locked-slot:
                     </tr>
                 </tbody>
             </table>
-
             <h3>slots - 饰品槽位位置</h3>
             <table>
                 <thead>
@@ -1051,7 +969,6 @@ locked-slot:
                     </tr>
                 </tbody>
             </table>
-
             <div class="alert alert-info">
                 <div class="alert-title">💡 GUI位置计算</div>
                 <p>GUI位置从左上角开始，按行从0开始编号：</p>
@@ -1062,7 +979,6 @@ locked-slot:
 第5行: 36 37 38 39 40 41 42 43 44
 第6行: 45 46 47 48 49 50 51 52 53</code></pre>
             </div>
-
             <h3>buttons - 功能按钮</h3>
             <table>
                 <thead>
@@ -1095,7 +1011,6 @@ locked-slot:
                     </tr>
                 </tbody>
             </table>
-
             <h4>内置按钮ID</h4>
             <ul>
                 <li><code>prev-page</code> - 上一页按钮</li>
@@ -1103,7 +1018,6 @@ locked-slot:
                 <li><code>close</code> - 关闭按钮</li>
                 <li><code>page-info</code> - 页面信息显示</li>
             </ul>
-
             <h3>background - 背景填充</h3>
             <table>
                 <thead>
@@ -1136,7 +1050,6 @@ locked-slot:
                     </tr>
                 </tbody>
             </table>
-
             <h3>empty-slot / locked-slot - 槽位占位显示</h3>
             <table>
                 <thead>
@@ -1165,15 +1078,12 @@ locked-slot:
                 </tbody>
             </table>
         </section>
-
         <!-- 槽位配置 -->
         <section id="slots-config">
             <h2>🔓 槽位配置 (slots.yml)</h2>
             <p>槽位配置文件定义每个饰品槽位的解锁条件和升级路线。</p>
-
             <h3>完整配置示例</h3>
             <pre><code># MiaAccessoryPlus 槽位养成配置
-
 slots:
   # 戒指槽位1 - 默认已解锁
   ring_1:
@@ -1184,21 +1094,26 @@ slots:
     upgrades:
       1:
         vault: 5000
-        attribute-bonus: 5
+        attributes:
+          生命值: 10
+          物理攻击: 5
       2:
         vault: 15000
         points: 100
-        mm-items:
-          强化石: 3
-        attribute-bonus: 10
+        attributes:
+          生命值: 20
+          物理攻击: 10
+          暴击率: 2
       3:
         vault: 50000
         points: 300
         mm-items:
-          强化石: 10
-          高级强化石: 2
-        attribute-bonus: 15
-
+          强化石: 5
+        attributes:
+          生命值: 50
+          物理攻击: 25
+          暴击率: 5
+          暴击伤害: 10
   # 戒指槽位2 - 需要解锁
   ring_2:
     name: "&e戒指槽位 II"
@@ -1207,18 +1122,19 @@ slots:
     unlock:
       vault: 10000
       points: 200
-      exp-levels: 0
-      permission: ""
-      mm-items: {}
     upgrades:
       1:
         vault: 10000
-        attribute-bonus: 5
+        attributes:
+          生命值: 10
+          物理攻击: 5
       2:
         vault: 30000
         points: 150
-        attribute-bonus: 10</code></pre>
-
+        attributes:
+          生命值: 20
+          物理攻击: 10
+          暴击率: 2</code></pre>
             <h3>槽位基础配置</h3>
             <table>
                 <thead>
@@ -1251,7 +1167,6 @@ slots:
                     </tr>
                 </tbody>
             </table>
-
             <h3>unlock - 解锁条件</h3>
             <p>当 <code>default-state</code> 为 <code>locked</code> 时，玩家需要满足以下条件才能解锁槽位：</p>
             <table>
@@ -1290,7 +1205,6 @@ slots:
                     </tr>
                 </tbody>
             </table>
-
             <h3>upgrades - 升级配置</h3>
             <p>定义槽位的升级路线，使用等级数字作为键：</p>
             <table>
@@ -1323,28 +1237,29 @@ slots:
                         <td>升级需要消耗的MM物品</td>
                     </tr>
                     <tr>
-                        <td><code>attribute-bonus</code></td>
+                        <td><code>attributes.&lt;属性名&gt;</code></td>
                         <td>Double</td>
-                        <td>该等级提供的属性加成百分比（累加）</td>
+                        <td>该等级提供的属性加成，多个属性加成分行配置</td>
                     </tr>
                 </tbody>
             </table>
-
             <div class="alert alert-success">
-                <div class="alert-title">✅ 属性加成计算</div>
-                <p>槽位等级的属性加成是<strong>累加</strong>的。例如，Lv.1 提供 5%，Lv.2 提供 10%，那么 Lv.2 的槽位总共提供 15% 的属性加成。</p>
-                <p>计算公式：<code>最终属性 = 饰品基础属性 × (1 + 槽位加成%/100)</code></p>
+                <div class="alert-title">✅ 属性加成说明</div>
+                <p>槽位升级的属性加成是<strong>累加</strong>的。升到 Lv.2 时，会同时获得 Lv.1 和 Lv.2 的所有属性。</p>
+                <p>例如：</p>
+                <ul>
+                    <li>Lv.1: 生命值 +10, 物理攻击 +5</li>
+                    <li>Lv.2: 生命值 +20, 物理攻击 +10, 暴击率 +2</li>
+                    <li>升到 Lv.2 后总属性：生命值 <strong>+30</strong>, 物理攻击 <strong>+15</strong>, 暴击率 <strong>+2</strong></li>
+                </ul>
             </div>
         </section>
-
         <!-- 套装配置 -->
         <section id="sets-config">
             <h2>⚔️ 套装配置 (sets.yml)</h2>
             <p>套装配置文件定义套装的组成物品和激活效果。</p>
-
             <h3>完整配置示例</h3>
             <pre><code># MiaAccessoryPlus 套装配置
-
 sets:
   # 炎魔套装示例
   flame_set:
@@ -1364,7 +1279,6 @@ sets:
         物理攻击: 120
         暴击率: 10
         火焰伤害: 25
-
   # 冰霜套装示例
   frost_set:
     name: "&b&l❄ 冰霜套装"
@@ -1382,7 +1296,6 @@ sets:
         魔法攻击: 150
         冰冻几率: 15
         冷却缩减: 10
-
   # 战神套装示例 (4件套)
   war_set:
     name: "&4&l⚔ 战神套装"
@@ -1406,7 +1319,6 @@ sets:
         攻击速度: 15
         吸血: 8
         暴击率: 15</code></pre>
-
             <h3>套装基础配置</h3>
             <table>
                 <thead>
@@ -1434,7 +1346,6 @@ sets:
                     </tr>
                 </tbody>
             </table>
-
             <h3>required-mm-items - 套装所需物品</h3>
             <table>
                 <thead>
@@ -1452,13 +1363,11 @@ sets:
                     </tr>
                 </tbody>
             </table>
-
             <div class="alert alert-warning">
                 <div class="alert-title">⚠️ 物品匹配说明</div>
                 <p>套装通过 <strong>MythicMobs 物品ID</strong> 进行匹配，而非物品名称。确保你的饰品是通过 MythicMobs 生成的，并且ID与配置一致。</p>
                 <p>如果物品不是 MM 物品，将无法参与套装计算。</p>
             </div>
-
             <h3>bonuses - 套装效果</h3>
             <p>使用装备件数作为键，定义不同件数激活的效果：</p>
             <table>
@@ -1482,13 +1391,11 @@ sets:
                     </tr>
                 </tbody>
             </table>
-
             <div class="alert alert-info">
                 <div class="alert-title">💡 套装效果叠加规则</div>
                 <p>套装效果是<strong>累加</strong>的。例如装备3件套时，会同时获得2件套和3件套的效果。</p>
                 <p>示例：2件套 +50物攻，3件套 +70物攻 → 装备3件时总共获得 +120物攻</p>
             </div>
-
             <h3>常用属性名示例</h3>
             <table>
                 <thead>
@@ -1534,11 +1441,9 @@ sets:
             </table>
             <p>注意：实际可用的属性名取决于你的 AttributePlus 配置。</p>
         </section>
-
         <!-- 开发者 -->
         <section id="developer">
             <h2>🔧 技术细节</h2>
-
             <h3>属性计算流程</h3>
             <ol>
                 <li>从物品 Lore 读取属性（通过 AttributePlus API）</li>
@@ -1547,7 +1452,6 @@ sets:
                 <li>合并套装属性加成</li>
                 <li>提交到 AttributePlus</li>
             </ol>
-
             <h3>数据存储</h3>
             <p>玩家数据存储在 SQLite/MySQL 数据库中，表结构：</p>
             <pre><code>accessory_slots (
@@ -1561,7 +1465,6 @@ sets:
   mm_item_id TEXT,
   PRIMARY KEY (uuid, page_index, slot_id)
 )</code></pre>
-
             <h3>性能优化</h3>
             <ul>
                 <li><strong>分页缓存</strong> - 每页维护独立的属性缓存</li>
@@ -1569,18 +1472,14 @@ sets:
                 <li><strong>延迟计算</strong> - 批量更新时避免频繁计算</li>
             </ul>
         </section>
-
         <!-- API -->
         <section id="api">
             <h2>📚 API 接口</h2>
-
             <h3>获取插件实例</h3>
             <pre><code>MiaAccessoryPlus plugin = MiaAccessoryPlus.getInstance();</code></pre>
-
             <h3>获取玩家饰品数据</h3>
             <pre><code>AccessoryManager manager = plugin.getAccessoryManager();
 PlayerAccessoryData data = manager.getPlayerData(player.getUniqueId());
-
 // 遍历所有页面
 for (AccessoryPage page : data.getPages()) {
     for (AccessorySlot slot : page.getSlots()) {
@@ -1590,42 +1489,34 @@ for (AccessoryPage page : data.getPages()) {
         }
     }
 }</code></pre>
-
             <h3>检查套装激活</h3>
             <pre><code>SetManager setManager = plugin.getSetManager();
 AccessoryPage page = data.getCurrentPage();
-
 List&lt;SetBonus&gt; activeSets = setManager.checkPageSets(page);
 for (SetBonus set : activeSets) {
     int pieceCount = set.getActivePieceCount(page.getMythicMobsItemIds());
     Map&lt;String, Double&gt; bonuses = set.getActiveBonus(page.getMythicMobsItemIds());
 }</code></pre>
         </section>
-
         <!-- 编译构建 -->
         <section id="build">
             <h2>🔨 编译构建</h2>
-
             <h3>环境要求</h3>
             <ul>
                 <li>JDK 17+</li>
                 <li>Gradle 8.x</li>
             </ul>
-
             <h3>依赖文件</h3>
             <p>需要将以下文件放入 <code>localdependencies/</code> 目录：</p>
             <ul>
                 <li><code>AttributePlus-3.3.3.4.jar</code></li>
                 <li><code>PlayerPoints.jar</code></li>
             </ul>
-
             <h3>编译命令</h3>
             <pre><code># 编译
 gradle build
-
 # 输出位置
 build/libs/MiaAccessoryPlus-1.0.0.jar</code></pre>
-
             <h3>项目结构</h3>
             <pre><code>src/main/java/com/miaaccessoryplus/tf/
 ├── MiaAccessoryPlus.java      # 主插件类
@@ -1637,7 +1528,6 @@ build/libs/MiaAccessoryPlus-1.0.0.jar</code></pre>
 ├── listener/                  # 事件监听
 ├── manager/                   # 核心管理器
 └── storage/                   # 数据存储
-
 src/main/resources/
 ├── plugin.yml
 ├── config.yml
@@ -1646,7 +1536,6 @@ src/main/resources/
 ├── sets.yml
 └── lang/zh_CN.yml</code></pre>
         </section>
-
         <!-- 底部 -->
         <footer
             style="text-align: center; padding: 3rem 0; color: var(--text-secondary); border-top: 1px solid var(--border-color); margin-top: 3rem;">
@@ -1654,12 +1543,10 @@ src/main/resources/
             <p style="font-size: 0.85rem; margin-top: 0.5rem;">Minecraft 1.20.1 - 1.21.4 | Paper | AttributePlus</p>
         </footer>
     </main>
-
     <script>
         // 侧边栏高亮
         const links = document.querySelectorAll('.sidebar-link');
         const sections = document.querySelectorAll('section');
-
         window.addEventListener('scroll', () => {
             let current = '';
             sections.forEach(section => {
@@ -1668,7 +1555,6 @@ src/main/resources/
                     current = section.getAttribute('id');
                 }
             });
-
             links.forEach(link => {
                 link.classList.remove('active');
                 if (link.getAttribute('href') === '#' + current) {
@@ -1678,5 +1564,4 @@ src/main/resources/
         });
     </script>
 </body>
-
 </html>
