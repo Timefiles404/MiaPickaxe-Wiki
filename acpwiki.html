@@ -1293,6 +1293,32 @@ locked-slot:
                     </tr>
                 </tbody>
             </table>
+
+            <h3>资源包材质 - custom-model-data</h3>
+            <p>如需使用资源包材质（CustomModelData），可在 GUI 配置里为按钮/背景/占位物品添加 <code>custom-model-data</code>：</p>
+            <pre><code># gui.yml / gui2.yml ... 示例
+buttons:
+  close:
+    slot: 49
+    material: PAPER
+    custom-model-data: 101
+    name: "&c✖ 关闭"
+
+background:
+  enabled: true
+  material: GRAY_STAINED_GLASS_PANE
+  custom-model-data: 201
+  name: " "
+
+empty-slot:
+  material: LIGHT_GRAY_STAINED_GLASS_PANE
+  custom-model-data: 301
+  name: "&7空槽位"
+
+locked-slot:
+  material: RED_STAINED_GLASS_PANE
+  custom-model-data: 401
+  name: "&c&l✖ 槽位未解锁"</code></pre>
         </section>
 
         <!-- 槽位配置 -->
