@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>PUA 分配表</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #0f1220;
+      --panel: #171a2e;
+      --panel-light: #1f2340;
+      --text: #e6e8ff;
+      --muted: #9aa0ff;
+      --used: #ff6b6b;
+      --free: #4cd137;
+      --border: #2a2f5a;
+      --accent: #6c7cff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Inter", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(180deg, #0f1220, #0b0d18);
+      color: var(--text);
+    }
+
+    header {
+      padding: 40px 24px 20px;
+      text-align: center;
+    }
+
+    header h1 { margin: 0; font-size: 2.2rem; }
+    header p { margin: 6px 0 0; color: var(--muted); }
+
+    main { max-width: 1200px; margin: auto; padding: 24px; }
+
+    .tabs {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .tab {
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: var(--panel-light);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .tab.active {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    section {
+      display: none;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 28px;
+    }
+
+    section.active { display: block; }
+
+    h2 { margin-top: 0; color: var(--accent); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--panel-light);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 12px;
+    }
+
+    th, td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+
+    th { color: var(--muted); text-align: left; }
+    tr:last-child td { border-bottom: none; }
+
+    .used { color: var(--used); font-weight: 600; }
+    .free { color: var(--free); font-weight: 600; }
+
+    button.toggle {
+      padding: 4px 10px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.75rem;
+    }
+
+    .expand {
+      margin: 12px 0;
+      padding: 8px 14px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.06);
+      border: 1px dashed var(--border);
+      cursor: pointer;
+      color: var(--muted);
+    }
+
+    .search-box {
+      width: 100%;
+      margin: 10px 0 6px;
+      padding: 10px 14px 10px 38px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--panel-light) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%239aa0ff" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398l3.85 3.85.707-.708-3.85-3.85zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>') no-repeat 12px center;
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+
+    .search-box:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(108,124,255,0.25);
+    }
+
+    .remark { cursor: pointer; color: var(--muted); }
+    .remark-input {
+      width: 100%;
+      background: var(--panel-light);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      padding: 4px 6px;
+      font-size: 0.8rem;
+    }
+
+    footer { text-align: center; color: var(--muted); font-size: 0.8rem; padding: 30px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>PUA 分配表</h1>
+  <p>Private Use Area · 可交互字符管理</p>
+</header>
+
+<main>
+  <div class="tabs">
+    <button class="tab" onclick="exportPUA()">⬇ 导出</button>
+    <button class="tab" onclick="document.getElementById('importFile').click()">⬆ 导入</button>
+    <input id="importFile" type="file" accept="application/json" style="display:none" onchange="importPUA(this.files[0])">
+
+    <div class="tab active" data-tab="A">A 区</div>
+    <div class="tab" data-tab="B">B 区</div>
+    <div class="tab" data-tab="C">C 区</div>
+    <div class="tab" data-tab="D">D 区</div>
+  </div>
+
+  <section id="A" class="active">
+    <h2>A 区：Tag / 身份（U+E800–E8FF）</h2>
+    <input class="search-box" placeholder="搜索 CodePoint / 备注 / 状态…" oninput="searchPUA('A', this.value)">
+    <div class="expand" onclick="toggleSection('A',0xE800,0xE8FF)">▶ 展开 A 区</div>
+    <table><thead><tr><th>字符</th><th>CodePoint</th><th>状态</th><th>操作</th><th>备注</th></tr></thead><tbody></tbody></table>
+  </section>
+
+  <section id="B">
+    <h2>B 区：表情 / Overlay（U+E8C0–EBFF）</h2>
+    <input class="search-box" placeholder="搜索 CodePoint / 备注 / 状态…" oninput="searchPUA('B', this.value)">
+    <div class="expand" onclick="toggleSection('B',0xE8C0,0xEBFF)">▶ 展开 B 区</div>
+    <table><thead><tr><th>字符</th><th>CodePoint</th><th>状态</th><th>操作</th><th>备注</th></tr></thead><tbody></tbody></table>
+  </section>
+
+  <section id="C">
+    <h2>C 区：GUI / 系统（U+EC00–EEFF）</h2>
+    <input class="search-box" placeholder="搜索 CodePoint / 备注 / 状态…" oninput="searchPUA('C', this.value)">
+    <div class="expand" onclick="toggleSection('C',0xEC00,0xEEFF)">▶ 展开 C 区</div>
+    <table><thead><tr><th>字符</th><th>CodePoint</th><th>状态</th><th>操作</th><th>备注</th></tr></thead><tbody></tbody></table>
+  </section>
+
+  <section id="D">
+    <h2>D 区：临时 / 实验（U+EF00–F0FF）</h2>
+    <input class="search-box" placeholder="搜索 CodePoint / 备注 / 状态…" oninput="searchPUA('D', this.value)">
+    <div class="expand" onclick="toggleSection('D',0xEF00,0xF0FF)">▶ 展开 D 区</div>
+    <table><thead><tr><th>字符</th><th>CodePoint</th><th>状态</th><th>操作</th><th>备注</th></tr></thead><tbody></tbody></table>
+  </section>
+</main>
+
+<footer>
+  <p>状态使用 localStorage 保存 · 刷新不会丢</p>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const STORAGE_KEY = 'PUA_USED_MAP';
+  let usedMap = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+  const expanded = {};
+
+  const DEFAULT_USED = {
+    0xE801: 'mvp',0xE802:'dy',0xE803:'famer',0xE804:'fmz',0xE805:'gd',0xE806:'hero',0xE807:'hs',0xE808:'md',0xE809:'npc',0xE80A:'player',0xE80B:'sc',0xE80C:'vip',0xE80D:'zc',0xE80E:'plot',
+    0xE8C4:'overlay11',0xE8C5:'overlay12'
+  };
+
+  if (Object.keys(usedMap).length === 0) {
+    usedMap = {...DEFAULT_USED};
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(usedMap));
+  }
+
+  window.exportPUA = function(){
+    const data = { version: 1, exported_at: new Date().toISOString(), usedMap };
+    const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'PUA_USED_MAP.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  };
+
+  window.importPUA = function(file){
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      try{
+        const json = JSON.parse(e.target.result);
+        if(!json.usedMap) throw 'invalid';
+        usedMap = json.usedMap;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(usedMap));
+        document.querySelectorAll('tbody').forEach(t=>t.innerHTML='');
+        Object.keys(expanded).forEach(k=>expanded[k]=false);
+        alert('PUA 数据已成功导入');
+      }catch(err){ alert('导入失败：文件格式不正确'); }
+    };
+    reader.readAsText(file);
+  };
+
+  window.toggleSection = function(id,start,end){
+    const btn = document.querySelector(`#${id} .expand`);
+    const tbody = document.querySelector(`#${id} tbody`);
+    if(!btn || !tbody) return;
+    if(expanded[id]){
+      tbody.innerHTML='';
+      btn.textContent='▶ 展开 '+id+' 区';
+      expanded[id]=false;
+    }else{
+      renderRange(id,start,end);
+      btn.textContent='▼ 收起 '+id+' 区';
+      expanded[id]=true;
+    }
+  };
+
+  function renderRange(id,start,end){
+    const tbody = document.querySelector(`#${id} tbody`);
+    if(!tbody) return;
+    tbody.innerHTML='';
+    for(let cp=start;cp<=end;cp++){
+      const used = usedMap[cp];
+      const tr=document.createElement('tr');
+      tr.innerHTML=`<td>${String.fromCharCode(cp)}</td><td>U+${cp.toString(16).toUpperCase()}</td><td class="${used?'used':'free'}">${used?'USED':'FREE'}</td><td><button class="toggle" onclick="togglePUA(${cp},'${id}')">${used?'标为 FREE':'标为 USED'}</button></td><td class="remark" onclick="editRemark(this,${cp})">${used||'—'}</td>`;
+      tbody.appendChild(tr);
+    }
+  }
+
+  window.togglePUA = function(cp,id){
+    if(usedMap[cp]) delete usedMap[cp]; else usedMap[cp]='custom';
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(usedMap));
+    const sec=document.getElementById(id);
+    if(!sec) return;
+    const btn=sec.querySelector('.expand');
+    if(!btn||!expanded[id]) return;
+    const m=btn.onclick.toString().match(/0x[0-9A-F]+,0x[0-9A-F]+/i);
+    if(m){const[s,e]=m[0].split(',');renderRange(id,Number(s),Number(e));}
+  };
+
+  window.editRemark = function(cell,cp){
+    const old=usedMap[cp]||'';
+    cell.innerHTML=`<input class="remark-input" value="${old}">`;
+    const input=cell.firstChild;input.focus();
+    input.onblur=()=>saveRemark(input,cp,cell);
+    input.onkeydown=e=>{if(e.key==='Enter')input.blur();};
+  };
+
+  function saveRemark(input,cp,cell){
+    const v=input.value.trim();
+    if(v) usedMap[cp]=v; else delete usedMap[cp];
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(usedMap));
+    cell.textContent=v||'—';
+  }
+
+  window.searchPUA = function(id,kw){
+    kw=kw.toLowerCase();
+    document.querySelectorAll(`#${id} tbody tr`).forEach(r=>{
+      r.style.display=r.textContent.toLowerCase().includes(kw)?'':'none';
+    });
+  };
+
+  document.querySelectorAll('.tab[data-tab]').forEach(tab=>{
+    tab.addEventListener('click',()=>{
+      document.querySelectorAll('.tab[data-tab]').forEach(t=>t.classList.remove('active'));
+      document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+      tab.classList.add('active');
+      const target=document.getElementById(tab.dataset.tab);
+      if(target) target.classList.add('active');
+    });
+  });
+});
+</script>
+
+</body>
+</html>
