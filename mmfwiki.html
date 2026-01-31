@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiaMasterForge Wiki - 宗师锻造 / 图纸解锁 / 未鉴定鉴定系统</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --border-color: #30363d;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --accent-purple: #a855f7;
+            --accent-blue: #3b82f6;
+            --accent-green: #22c55e;
+            --accent-yellow: #eab308;
+            --accent-red: #ef4444;
+            --accent-cyan: #06b6d4;
+            --accent-orange: #f97316;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background: rgba(13, 17, 23, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            padding: 0 2rem;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-yellow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .navbar-links {
+            margin-left: auto;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .navbar-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .navbar-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 64px;
+            left: 0;
+            width: 280px;
+            height: calc(100vh - 64px);
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .sidebar-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+        }
+
+        .sidebar-link {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .sidebar-link:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .sidebar-link.active {
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.2), rgba(234, 179, 8, 0.2));
+            color: var(--accent-orange);
+        }
+
+        .main-content {
+            margin-left: 280px;
+            margin-top: 64px;
+            padding: 2rem 3rem;
+            max-width: 900px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.1), rgba(234, 179, 8, 0.1));
+            border-radius: 16px;
+            margin-bottom: 3rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-yellow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        .version-badge {
+            display: inline-block;
+            background: var(--accent-green);
+            color: #000;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        section {
+            margin-bottom: 3rem;
+            scroll-margin-top: 80px;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.75rem;
+            color: var(--accent-cyan);
+        }
+
+        h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 1rem 0 0.5rem;
+            color: var(--accent-yellow);
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        pre {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', 'Consolas', monospace;
+            font-size: 0.85rem;
+        }
+
+        :not(pre)>code {
+            background: var(--bg-tertiary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            color: var(--accent-purple);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th,
+        td {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        th {
+            background: var(--bg-tertiary);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        td {
+            color: var(--text-secondary);
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .alert {
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid;
+        }
+
+        .alert-info {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: var(--accent-blue);
+        }
+
+        .alert-warning {
+            background: rgba(234, 179, 8, 0.1);
+            border-color: var(--accent-yellow);
+        }
+
+        .alert-success {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: var(--accent-green);
+        }
+
+        .alert-danger {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: var(--accent-red);
+        }
+
+        .alert-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--text-primary);
+        }
+
+        ul,
+        ol {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.25rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1.5rem;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="navbar-brand">⚒️ MiaMasterForge</div>
+        <div class="navbar-links">
+            <a href="#overview">概述</a>
+            <a href="#commands">命令</a>
+            <a href="#recipes">配方</a>
+            <a href="#config">配置</a>
+        </div>
+    </nav>
+
+    <aside class="sidebar">
+        <div class="sidebar-section">
+            <div class="sidebar-title">入门</div>
+            <a href="#overview" class="sidebar-link active">插件概述</a>
+            <a href="#installation" class="sidebar-link">安装指南</a>
+            <a href="#quick-start" class="sidebar-link">快速开始</a>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">锻造流程</div>
+            <a href="#commands" class="sidebar-link">命令列表</a>
+            <a href="#workflow" class="sidebar-link">两阶段GUI</a>
+            <a href="#slots" class="sidebar-link">工作台槽位</a>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">配方与材料</div>
+            <a href="#recipes" class="sidebar-link">recipes.yml</a>
+            <a href="#materials" class="sidebar-link">材料系统</a>
+            <a href="#additives" class="sidebar-link">添加剂石头</a>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">鉴定系统</div>
+            <a href="#sealed" class="sidebar-link">未鉴定物品</a>
+            <a href="#identify" class="sidebar-link">鉴定与品质</a>
+            <a href="#scroll" class="sidebar-link">鉴定卷轴</a>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-title">集成与配置</div>
+            <a href="#placeholders" class="sidebar-link">PlaceholderAPI</a>
+            <a href="#config" class="sidebar-link">config.yml</a>
+            <a href="#messages" class="sidebar-link">messages.yml</a>
+            <a href="#developer" class="sidebar-link">技术细节</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="hero">
+            <h1>MiaMasterForge Wiki</h1>
+            <p>宗师锻造系统：图纸解锁 → 54格锻造工作台 → 生成未鉴定物品 → 鉴定随机品质与属性</p>
+            <span class="version-badge">Paper / Spigot | Vault / PlayerPoints / MythicMobs 可选</span>
+        </div>
+
+        <section id="overview">
+            <h2>📖 插件概述</h2>
+            <p>MiaMasterForge 是一款以“锻造成长 + 未鉴定鉴定”为核心玩法的 RPG 插件。玩家通过图纸解锁配方，在锻造台放入材料与添加剂，按成功率随机判定成败；成功将获得未鉴定物品，随后可直接右键鉴定，或使用鉴定卷轴进行鉴定。</p>
+
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon">📜</div>
+                    <div class="card-title">图纸解锁</div>
+                    <div class="card-desc">右键一次性图纸，永久解锁配方列表</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🧰</div>
+                    <div class="card-title">54格工作台</div>
+                    <div class="card-desc">材料区 + 添加剂石头 + 实时信息面板 + 倒计时进度</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎲</div>
+                    <div class="card-title">未鉴定与随机</div>
+                    <div class="card-desc">品质权重池抽取，属性区间随机（支持百分比）</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔗</div>
+                    <div class="card-title">多插件兼容</div>
+                    <div class="card-desc">支持原版/MC模型、MythicMobs、Vault、PlayerPoints、PlaceholderAPI</div>
+                </div>
+            </div>
+
+            <div class="alert alert-info">
+                <div class="alert-title">💡 核心交互</div>
+                图纸解锁后使用 <code>/masterforge</code> 打开“配方选择界面”，点选配方进入“锻造工作台”，锻造成功后获得未鉴定物品，右键即可鉴定。
+            </div>
+        </section>
+
+        <section id="installation">
+            <h2>📦 安装指南</h2>
+
+            <h3>依赖要求</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>依赖插件</th>
+                        <th>必须</th>
+                        <th>用途</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Vault</td>
+                        <td>❌ 可选</td>
+                        <td>配方材料/鉴定费用使用金币（money）</td>
+                    </tr>
+                    <tr>
+                        <td>PlayerPoints</td>
+                        <td>❌ 可选</td>
+                        <td>配方材料/鉴定费用使用点券（points）</td>
+                    </tr>
+                    <tr>
+                        <td>MythicMobs</td>
+                        <td>❌ 可选</td>
+                        <td>图纸/材料/石头/鉴定成品支持 MM 物品</td>
+                    </tr>
+                    <tr>
+                        <td>PlaceholderAPI</td>
+                        <td>❌ 可选</td>
+                        <td>提供等级/经验等占位符</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>安装步骤</h3>
+            <ol>
+                <li>将 <code>MiaMasterForge</code> 插件 jar 放入服务器 <code>plugins/</code></li>
+                <li>如需金币/点券/MM/占位符功能，提前安装对应插件</li>
+                <li>启动服务器生成配置文件后，按需修改 <code>config.yml</code>、<code>recipes.yml</code>、<code>identify.yml</code>、<code>messages.yml</code></li>
+                <li>重载/重启后生效</li>
+            </ol>
+
+            <div class="alert alert-warning">
+                <div class="alert-title">⚠️ 关于 NBT 与作弊</div>
+                若你使用可改名/可改 Lore 的物品作为材料，建议开启 <code>strict_nbt_mode</code>，并在配方中使用“模板物品”或 MythicMobs 物品，避免玩家用改名物品混入。
+            </div>
+        </section>
+
+        <section id="quick-start">
+            <h2>🚀 快速开始</h2>
+
+            <h3>1. 配置一条锻造配方</h3>
+            <p>编辑 <code>plugins/MiaMasterForge/recipes.yml</code>，按以下结构创建一个配方（示例来自默认配置）。</p>
+            <pre><code>recipes:
+  fire_sword:
+    display: "&c火焰之剑"
+    required_level: 1
+    base_success_rate: 0.30
+    level_bonus_coef: 0.02
+    max_success_rate: 0.95
+    time_seconds: 10
+    blueprint:
+      type: MYTHICMOBS
+      id: BLUEPRINT_FIRE_SWORD
+    sealed_item:
+      material: PAPER
+      name: "&7未鉴定的 &c火焰之剑"
+      lore:
+        - "&7右键进行鉴定"
+    materials:
+      - type: VANILLA
+        material: IRON_INGOT
+        amount: 10
+      - type: VANILLA
+        material: BLAZE_POWDER
+        amount: 5</code></pre>
+
+            <h3>2. 配置鉴定结果池</h3>
+            <p>编辑 <code>plugins/MiaMasterForge/identify.yml</code>，以 <code>ForgeID(配方ID)</code> 为索引配置 tiers 权重与属性。</p>
+            <pre><code>recipes:
+  fire_sword:
+    identify_cost:
+      money: 100.0
+    tiers:
+      COMMON:
+        weight: 50
+        display: "&f[普通] 火焰之剑"
+        attributes:
+          damage: "10-15"
+          crit_chance: "1-3%"
+        lore:
+          - "&7做工一般的剑"</code></pre>
+
+            <h3>3. 解锁图纸并开始锻造</h3>
+            <ul>
+                <li>给玩家一个图纸（示例：MM 物品 <code>BLUEPRINT_FIRE_SWORD</code>）</li>
+                <li>玩家右键图纸解锁配方</li>
+                <li>玩家输入命令打开菜单并开始锻造</li>
+            </ul>
+            <pre><code>/masterforge</code></pre>
+
+            <div class="alert alert-success">
+                <div class="alert-title">✅ 预期效果</div>
+                锻造成功将获得“未鉴定物品”；右键该物品即可鉴定，按 tiers 权重抽取品质并随机属性值。
+            </div>
+        </section>
+
+        <section id="commands">
+            <h2>⌨️ 命令列表</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>命令</th>
+                        <th>权限</th>
+                        <th>说明</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>/masterforge</code></td>
+                        <td><code>masterforge.use</code></td>
+                        <td>打开锻造配方选择界面</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="workflow">
+            <h2>🖼️ 两阶段 GUI 流程</h2>
+            <h3>阶段 A：配方选择界面</h3>
+            <ul>
+                <li>展示所有可锻造配方</li>
+                <li>已解锁：显示物品图标，并提示可点击进入锻造台</li>
+                <li>未解锁：显示锁定提示（需图纸解锁）</li>
+            </ul>
+
+            <h3>阶段 B：锻造工作台（54格）</h3>
+            <ul>
+                <li>放入材料与可选添加剂</li>
+                <li>信息板实时显示材料计数与成功率拆分</li>
+                <li>点击开始后进入倒计时，按钮颜色从红到绿变化</li>
+            </ul>
+        </section>
+
+        <section id="slots">
+            <h2>🧩 工作台槽位说明</h2>
+            <p>槽位位置可在 <code>config.yml</code> 中自定义（默认配置如下）。</p>
+            <pre><code>gui:
+  workbench:
+    slots:
+      preview: 1
+      success_stone: 5
+      quality_stone: 6
+      start: 30
+      info: 21
+      materials:
+        - 9
+        - 10
+        - 11
+        - 18
+        - 19
+        - 20</code></pre>
+            <table>
+                <thead>
+                    <tr>
+                        <th>槽位</th>
+                        <th>用途</th>
+                        <th>说明</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>preview</code></td>
+                        <td>目标产物预览</td>
+                        <td>鼠标悬停显示所需材料列表</td>
+                    </tr>
+                    <tr>
+                        <td><code>materials</code></td>
+                        <td>材料放入区</td>
+                        <td>支持原版/自定义模型/MM 物品等</td>
+                    </tr>
+                    <tr>
+                        <td><code>success_stone</code></td>
+                        <td>成功率强化石</td>
+                        <td>读取石头 PDC 的加成值，参与成功率计算</td>
+                    </tr>
+                    <tr>
+                        <td><code>quality_stone</code></td>
+                        <td>品质石</td>
+                        <td>写入 QualityModifier，影响鉴定 tiers 权重覆盖</td>
+                    </tr>
+                    <tr>
+                        <td><code>start</code></td>
+                        <td>开始锻造</td>
+                        <td>倒计时期间会显示进度颜色（红→绿）</td>
+                    </tr>
+                    <tr>
+                        <td><code>info</code></td>
+                        <td>实时信息面板</td>
+                        <td>显示材料完成度与成功率拆分</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="recipes">
+            <h2>🧾 recipes.yml（锻造配方）</h2>
+            <p><code>recipes.yml</code> 以 <code>recipes.&lt;recipe_id&gt;</code> 为单位定义锻造配方。每条配方包含图纸、材料、成功率参数、耗时以及未鉴定物品模板。</p>
+
+            <h3>字段说明</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>字段</th>
+                        <th>类型</th>
+                        <th>说明</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>display</code></td>
+                        <td>String</td>
+                        <td>配方显示名（用于 GUI）</td>
+                    </tr>
+                    <tr>
+                        <td><code>required_level</code></td>
+                        <td>Int</td>
+                        <td>需求锻造等级</td>
+                    </tr>
+                    <tr>
+                        <td><code>base_success_rate</code></td>
+                        <td>Double</td>
+                        <td>基础成功率（0-1）</td>
+                    </tr>
+                    <tr>
+                        <td><code>level_bonus_coef</code></td>
+                        <td>Double</td>
+                        <td>每级加成系数（0-1）</td>
+                    </tr>
+                    <tr>
+                        <td><code>max_success_rate</code></td>
+                        <td>Double</td>
+                        <td>本配方成功率上限（0-1）</td>
+                    </tr>
+                    <tr>
+                        <td><code>time_seconds</code></td>
+                        <td>Int</td>
+                        <td>锻造耗时秒数（0=立即结算）</td>
+                    </tr>
+                    <tr>
+                        <td><code>blueprint</code></td>
+                        <td>Object</td>
+                        <td>用于解锁该配方的图纸物品定义</td>
+                    </tr>
+                    <tr>
+                        <td><code>materials</code></td>
+                        <td>List</td>
+                        <td>材料列表，支持物品与经济消耗</td>
+                    </tr>
+                    <tr>
+                        <td><code>sealed_item</code></td>
+                        <td>Object</td>
+                        <td>未鉴定物品模板（display/lore 等）</td>
+                    </tr>
+                    <tr>
+                        <td><code>additives</code></td>
+                        <td>Object</td>
+                        <td>添加剂（成功石/品质石）</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="materials">
+            <h2>🧱 材料系统（Unified Material API）</h2>
+            <p>材料系统允许在同一配方中混用：原版物品、MythicMobs 物品、Vault 金币、PlayerPoints 点券。</p>
+
+            <h3>支持的材料类型</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>type</th>
+                        <th>用途</th>
+                        <th>示例</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>VANILLA</code></td>
+                        <td>原版物品</td>
+                        <td><code>material: IRON_INGOT</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>MYTHICMOBS</code></td>
+                        <td>MM 物品（InternalName 匹配）</td>
+                        <td><code>id: SUCCESS_STONE</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>MONEY</code></td>
+                        <td>Vault 金币</td>
+                        <td><code>amount: 100.0</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>PLAYERPOINTS</code></td>
+                        <td>PlayerPoints 点券</td>
+                        <td><code>amount: 50</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Strict NBT Mode（严格匹配）</h3>
+            <p>开启后，物品材料匹配会更严格，用于防止玩家用改名/伪造 Lore 的物品混入。</p>
+            <pre><code>strict_nbt_mode: true</code></pre>
+        </section>
+
+        <section id="additives">
+            <h2>🧪 添加剂：成功石与品质石</h2>
+
+            <h3>成功率强化石（Success Stone）</h3>
+            <p>配方可定义 <code>success_stone</code>，当玩家放入该物品时，插件会读取该物品的 PDC 值并加到成功率中。</p>
+            <pre><code>additives:
+  success_stone:
+    type: MYTHICMOBS
+    id: SUCCESS_STONE
+    bonus_pdc_key: "masterforge_success_bonus"</code></pre>
+
+            <div class="alert alert-info">
+                <div class="alert-title">💡 PDC Key 与类型</div>
+                <p>当 <code>bonus_pdc_key</code> 不是完整命名空间时，将使用插件命名空间拼接：<code>miamasterforge:masterforge_success_bonus</code>。</p>
+                <p>数值支持两种类型：</p>
+                <ul>
+                    <li><code>INTEGER</code>：按百分比写入（如 15 表示 +15%）</li>
+                    <li><code>DOUBLE</code>：按小数写入（如 0.15 表示 +15%）</li>
+                </ul>
+            </div>
+
+            <h4>示例：给成功石写入加成（NBT / PDC）</h4>
+            <pre><code>PublicBukkitValues:
+  miamasterforge:masterforge_success_bonus: 15</code></pre>
+
+            <h3>品质石（Quality Stone）</h3>
+            <p>品质石不直接增加成功率，而是在锻造成功时把 <code>modifier</code> 写入未鉴定物品的 PDC，供鉴定系统做权重覆盖。</p>
+            <pre><code>additives:
+  quality_stone:
+    type: MYTHICMOBS
+    id: HOLY_QUALITY_STONE
+    modifier: HIGH_TIER</code></pre>
+        </section>
+
+        <section id="sealed">
+            <h2>📦 未鉴定物品（Sealed Item）</h2>
+            <p>锻造成功后不会直接给成品，而是给“未鉴定物品”。该物品会携带 PDC：</p>
+            <ul>
+                <li><code>miamasterforge:forge_id</code>：对应配方 ID（即 recipes.yml 中的 <code>recipe_id</code>）</li>
+                <li><code>miamasterforge:quality_modifier</code>：可选，来自品质石的 modifier</li>
+            </ul>
+
+            <div class="alert alert-warning">
+                <div class="alert-title">⚠️ 版本迁移提示</div>
+                若你从旧插件名的版本升级到 <code>MiaMasterForge</code>，旧物品上的 PDC 命名空间可能不同，导致旧未鉴定物品无法被识别。建议清空旧未鉴定物品或重新生成。
+            </div>
+        </section>
+
+        <section id="identify">
+            <h2>🎲 鉴定与随机品质（identify.yml）</h2>
+            <p>鉴定系统根据 <code>forge_id</code> 找到对应的鉴定配方，然后按 tiers 的权重池随机一个品质，并对 attributes 做区间随机。</p>
+
+            <h3>鉴定费用（可选）</h3>
+            <pre><code>identify_cost:
+  money: 100.0
+  points: 10</code></pre>
+            <p>同时配置 <code>money</code> 与 <code>points</code> 时会同时检查并扣除。</p>
+
+            <h3>属性区间随机</h3>
+            <ul>
+                <li><code>"10-15"</code>：随机整数 10~15</li>
+                <li><code>"1-3%"</code>：随机整数 1~3，并追加 %</li>
+            </ul>
+
+            <h3>品质石权重覆盖（QualityModifier）</h3>
+            <p>当未鉴定物品携带 <code>quality_modifier</code> 时，会使用 <code>quality_modifiers</code> 中对应的 tiers 权重覆盖。</p>
+            <pre><code>quality_modifiers:
+  HIGH_TIER:
+    tiers:
+      COMMON: 40
+      RARE: 30
+      LEGENDARY: 30</code></pre>
+
+            <h3>nbt_data：赋予特殊 PDC（供其他插件读取）</h3>
+            <p>在每个 tier 中可配置 <code>nbt_data</code>，支持两种写法：</p>
+            <pre><code>nbt_data:
+  mm_id: "LEGENDARY_FIRE_SWORD"
+  some_plugin:flag: "true"
+  mykey: 123</code></pre>
+            <pre><code>nbt_data:
+  - "mm_id: LEGENDARY_FIRE_SWORD"
+  - "myplugin:rarity=legendary"
+  - "durability: 250"</code></pre>
+            <div class="alert alert-info">
+                <div class="alert-title">💡 写入规则</div>
+                <ul>
+                    <li><code>mm_id</code>：特殊字段，将优先用 MythicMobs 生成成品物品</li>
+                    <li>其他键：写入成品 ItemMeta 的 PDC；可写 int/double/string/boolean</li>
+                    <li>键可以是完整命名空间 <code>namespace:key</code>，也可以是简写 <code>key</code>（简写会用 <code>miamasterforge</code> 作为命名空间）</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="scroll">
+            <h2>📜 鉴定卷轴</h2>
+            <p>除“右键未鉴定物品”外，MiaMasterForge 也支持用“鉴定卷轴”对未鉴定物品进行鉴定：</p>
+            <ul>
+                <li>方式 1：手持卷轴右键（未鉴定物品放在副手）</li>
+                <li>方式 2：背包中用鼠标把卷轴拖到未鉴定物品上</li>
+            </ul>
+            <p>卷轴识别依赖 PDC 标记：<code>miamasterforge:identify_scroll = 1</code>（BYTE）。</p>
+
+            <h4>示例：制作一个卷轴（NBT / PDC）</h4>
+            <pre><code>PublicBukkitValues:
+  miamasterforge:identify_scroll: 1b</code></pre>
+
+            <div class="alert alert-warning">
+                <div class="alert-title">⚠️ 注意</div>
+                Minecraft 原生命令难以直接写入 PDC。通常建议用 MythicMobs / MMOItems / Skript / ItemsAdder 等能够写入 NBT/PDC 的工具生成卷轴。
+            </div>
+        </section>
+
+        <section id="placeholders">
+            <h2>🏷️ PlaceholderAPI 占位符</h2>
+            <p>安装 PlaceholderAPI 后自动注册以下占位符：</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>占位符</th>
+                        <th>说明</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>%masterforge_level%</code></td>
+                        <td>玩家锻造等级</td>
+                    </tr>
+                    <tr>
+                        <td><code>%masterforge_exp%</code></td>
+                        <td>玩家当前锻造经验</td>
+                    </tr>
+                    <tr>
+                        <td><code>%masterforge_success_rate_bonus%</code></td>
+                        <td>等级带来的额外成功率加成（百分比显示）</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="config">
+            <h2>⚙️ config.yml（主配置）</h2>
+            <p>主配置用于控制严格匹配开关、锻造等级与成功率上下限、GUI 槽位布局等。</p>
+
+            <h3>关键配置项</h3>
+            <pre><code>strict_nbt_mode: false
+
+forge:
+  max_success_rate: 0.95
+  min_success_rate: 0.01
+  default_level: 1
+  default_exp: 0
+  default_max_exp: 100
+  exp_gain:
+    success: 50
+    failed: 10
+  max_exp_growth: 1.2
+  placeholder_level_bonus_coef: 0.0
+
+gui:
+  selector:
+    size: 54
+    title: "&8锻造图纸"
+  workbench:
+    size: 54
+    title: "&8锻造台"</code></pre>
+        </section>
+
+        <section id="messages">
+            <h2>💬 messages.yml（消息文本）</h2>
+            <p>支持 <code>{prefix}</code>、<code>{player}</code>、<code>{recipe}</code>、<code>{result}</code> 等占位符替换。</p>
+            <pre><code>prefix: "&6[宗师锻造]&r "
+
+forge:
+  started: "{prefix}&7{player} 正在锻造 &f{recipe}&7..."
+  success: "{prefix}&a锻造成功！获得未鉴定物品：&f{result}"</code></pre>
+        </section>
+
+        <section id="developer">
+            <h2>🔧 技术细节</h2>
+            <h3>成功率公式</h3>
+            <pre><code>最终成功率 = 基础成功率 + (玩家等级 - 配方需求等级) * 等级加成系数 + 强化石加成
+并受到全局 min_success_rate 与配方 max_success_rate 限制</code></pre>
+
+            <h3>核心 PDC Keys</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>PDC Key</th>
+                        <th>写入对象</th>
+                        <th>用途</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>miamasterforge:forge_id</code></td>
+                        <td>未鉴定物品</td>
+                        <td>鉴定索引（对应配方 ID）</td>
+                    </tr>
+                    <tr>
+                        <td><code>miamasterforge:quality_modifier</code></td>
+                        <td>未鉴定物品</td>
+                        <td>品质石效果（用于权重覆盖）</td>
+                    </tr>
+                    <tr>
+                        <td><code>miamasterforge:identify_scroll</code></td>
+                        <td>卷轴物品</td>
+                        <td>标识为“鉴定卷轴”</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="alert alert-info">
+                <div class="alert-title">💡 提示</div>
+                若你希望让第三方插件读取鉴定后的自定义数据，可在 <code>identify.yml</code> 的 <code>nbt_data</code> 写入对应命名空间键值。
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 3rem 0; color: var(--text-secondary); border-top: 1px solid var(--border-color); margin-top: 3rem;">
+            <p>MiaMasterForge Wiki &copy; 2026</p>
+            <p style="font-size: 0.85rem; margin-top: 0.5rem;">Paper | Vault / PlayerPoints / MythicMobs / PlaceholderAPI</p>
+        </footer>
+    </main>
+
+    <script>
+        const links = document.querySelectorAll('.sidebar-link');
+        const sections = document.querySelectorAll('section');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            links.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
+
